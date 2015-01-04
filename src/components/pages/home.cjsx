@@ -2,12 +2,15 @@
 
 React = require 'react'
 {Link} = require 'react-router'
+HomeNav = require './home/homenav'
 
 Home = module.exports = React.createClass
   render: ->
-    <header>
-      <h2>Welcome To Golf Connectx!</h2>
-      <nav>
-        <Link to="clubhouse">Go to clubhouse</Link>
-      </nav>
-    </header>
+    <div className="home_wrapper shadow">
+      <header className="home" role="banner">
+        <section className="partition logo">
+          <figure><img src="img/logo.png" /></figure>
+        </section>
+        <HomeNav />
+      </header>
+    </div>
