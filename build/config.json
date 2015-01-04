@@ -16,5 +16,9 @@
     "in": "./res/style/**/*",
     "out": "final.css",
     "dir": "./bin"
+  },
+  "copy": {
+    "in": ["./res/fonts/"],
+    "out": "./bin"
   }
 }

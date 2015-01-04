@@ -10,7 +10,7 @@ React = require 'react'
   Route,
   RouteHandler,
   DefaultRoute
-} = require 'react-router'
+} = require 'react-router' 
 
 Home = require './components/pages/home'
 Clubhouse = require './components/pages/clubhouse'

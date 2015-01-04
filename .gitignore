@@ -1,4 +1,5 @@
 node_modules/
 bin/*
+!bin/fonts/
 !bin/index.html
 .DS_Store
