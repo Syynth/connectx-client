@@ -1,0 +1,4 @@
+node_modules/
+bin/*
+!bin/index.html
+.DS_Store

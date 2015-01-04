@@ -1,0 +1,20 @@
+{
+  "js": {
+    "in": "./src/index.cjsx",
+    "out": "final.js",
+    "dir": "./bin"
+  },
+  "img": {
+    "in": "./res/img/**/*",
+    "out": "./bin/img"
+  },
+  "server": {
+    "root": "./bin/index.html",
+    "url": "http://localhost:8000"
+  },
+  "css": {
+    "in": "./res/style/**/*",
+    "out": "final.css",
+    "dir": "./bin"
+  }
+}
