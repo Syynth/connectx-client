@@ -27,7 +27,8 @@
     "stylus": "^0.49.3",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.2.1",
-    "gulp-copy": "0.0.2"
+    "gulp-copy": "0.0.2",
+    "cjsxify": "~0.2.5"
   },
   "dependencies": {
     "backbone": "^1.1.2",
@@ -36,11 +37,9 @@
     "flux": "~2.0.1",
     "react-bootstrap": "~0.13.0",
     "react-router": "~0.11.6",
-    "superagent": "~0.21.0"
-  },
-  "browserify": {
-    "transform": [
-      "coffee-reactify"
-    ]
+    "superagent": "~0.21.0",
+    "connectx": "0.0.0",
+    "connectx-components": "0.0.0",
+    "connectx-stores": "0.0.0"
   }
 }

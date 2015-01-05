@@ -3,5 +3,5 @@
 React = require 'react'
 {Router} = require 'connectx'
 
-router.run (Handler, state) ->
+Router.run (Handler, state) ->
   React.render <Handler />, document.body
