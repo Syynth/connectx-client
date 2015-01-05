@@ -1,6 +1,6 @@
 {
   "js": {
-    "in": "./src/index.cjsx",
+    "in": "./node_modules/connectx/index.cjsx",
     "out": "final.js",
     "dir": "./bin"
   },
