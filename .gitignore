@@ -6,4 +6,5 @@ node_modules/*
 bin/*
 !bin/fonts/
 !bin/index.html
+!bin/final.css
 .DS_Store

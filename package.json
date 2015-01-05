@@ -38,8 +38,6 @@
     "react-bootstrap": "~0.13.0",
     "react-router": "~0.11.6",
     "superagent": "~0.21.0",
-    "connectx": "0.0.0",
-    "connectx-components": "0.0.0",
-    "connectx-stores": "0.0.0"
+    "connectx": "0.0.0"
   }
 }
