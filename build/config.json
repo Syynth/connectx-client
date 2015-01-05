@@ -1,6 +1,6 @@
 {
   "js": {
-    "in": "./node_modules/connectx/index.cjsx",
+    "in": "./index.coffee",
     "out": "final.js",
     "dir": "./bin"
   },

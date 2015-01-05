@@ -4,13 +4,11 @@ var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browserify = require('browserify');
 var reactify = require('coffee-reactify');
-var shim = require('browserify-shim');
 var config = require('../config.json');
 var plumber = require('gulp-plumber');
 
 var bundler = watchify(browserify(config.js.in, {insertGlobals: false, extensions: ['.coffee', '.cjsx']}));
 bundler.transform(reactify);
-bundler.transform(shim);
 
 var bundle = function() {
   gutil.log('Running ', gutil.colors.cyan('watchify'), 'after change')

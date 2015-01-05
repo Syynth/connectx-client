@@ -26,7 +26,7 @@ gulp.task('assets', function(cb) {
 })
 
 gulp.task('develop', function(cb) {
-  run('watchify', 'assets', 'serve', 'watch', cb);
+  run(['watchify', 'assets'], 'serve', 'watch', cb);
 });
 
 gulp.task('default', ['develop']);

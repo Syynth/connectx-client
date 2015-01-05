@@ -1,10 +1,7 @@
 # @cjsx React.DOM
 
 React = require 'react'
-Router = require './router'
-Dispatcher = require './dispatcher'
+{Router} = require 'connectx'
 
 router.run (Handler, state) ->
   React.render <Handler />, document.body
-
-module.exports = {Router, Dispatcher}

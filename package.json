@@ -10,7 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "browserify": "^7.0.3",
-    "browserify-shim": "^3.8.1",
     "coffee-reactify": "^2.1.0",
     "connect-livereload": "^0.5.2",
     "del": "^1.1.0",
@@ -41,9 +40,7 @@
   },
   "browserify": {
     "transform": [
-      "reactify",
-      "browserify-shim"
+      "coffee-reactify"
     ]
-  },
-  "browserify-shim": {}
+  }
 }
