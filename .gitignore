@@ -1,5 +1,10 @@
 /node_modules/*
 !node_modules/connectx/**/*
+!node_modules/connectx/actions/**/*
+!node_modules/connectx/components/**/*
+!node_modules/connectx/mixins/**/*
+!node_modules/connectx/remotes/**/*
+!node_modules/connectx/stores/**/*
 bin/*
 !bin/fonts/
 !bin/index.html
