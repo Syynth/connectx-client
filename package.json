@@ -28,6 +28,7 @@
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.2.1",
     "gulp-copy": "0.0.2",
+    "offline-js": "https://github.com/brainbytes/offline/tarball/master",
     "cjsxify": "https://github.com/SimonDegraeve/cjsxify/tarball/master"
   },
   "dependencies": {
