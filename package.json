@@ -44,6 +44,7 @@
     "baconjs": "~0.7.41",
     "guid": "0.0.12",
     "moment": "~2.8.4",
-    "react-ui": "~0.3.3"
+    "react-ui": "~0.3.3",
+    "localforage": "~1.2.1"
   }
 }
