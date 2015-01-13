@@ -46,6 +46,7 @@
     "react-ui": "~0.3.3",
     "superagent": "~0.21.0",
     "flux": "~2.0.1",
-    "regex-email": "~1.0.1"
+    "regex-email": "~1.0.1",
+    "q": "~1.1.2"
   }
 }
