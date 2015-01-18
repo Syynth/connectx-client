@@ -22,19 +22,10 @@
   },
   "csslibs": {
     "in": [
-      "./res/bower_components/bootstrap/dist/css/bootstrap.min.css"
+      "./res/bower_components/bootstrap/dist/css/bootstrap.min.css",
+      "./res/bower_components/font-awesome/css/font-awesome.min.css"
     ],
     "out": "libs.css",
     "dir": "./res/bower_components/.connectx-temp"
-  },
-  "sass": {
-    "main": "./res/style/master.scss",
-    "in": "./res/style/",
-    "out": "master.css",
-    "dir": "./res/bower_components/.connectx-temp"
-  },
-  "copy": {
-    "in": ["./res/fonts/"],
-    "out": "./bin"
   }
 }

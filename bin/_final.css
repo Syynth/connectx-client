@@ -17886,7 +17886,3 @@ p.content span.title {
 .wide-datepicker-wrapper {
 	position: absolute;
 }
-
-.datepicker > div {
-	display: inherit;
-}

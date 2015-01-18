@@ -6,6 +6,8 @@ var config = require('../config')
 gulp.task('style', ['sass', 'csslibs'], function() {
   return gulp.src(config.style.in)
     .pipe(plumber())
-    .pipe(concat())
+    .pipe(concat(config.style.out))
     .pipe(gulp.dest(config.style.dir))
 })
+
+module.exports = null

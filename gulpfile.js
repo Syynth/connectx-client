@@ -7,9 +7,9 @@ var gulp = require('./build')([
   'express',
   'clean',
   'reload',
-  'style',
   'sass',
-  'csslibs'
+  'csslibs',
+  'style'
 ]);
 
 var run = require('run-sequence');
