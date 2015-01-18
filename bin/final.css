@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -12,8 +12,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -24,7 +24,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -61,7 +61,7 @@ figcaption,
 figure,
 footer,
 header,
-hgroup, 
+hgroup,
 main,
 nav,
 section,
@@ -2410,21 +2410,21 @@ fieldset[disabled] .btn-default.active {
   border:1px solid #7aaa38;
 
   /* Old browsers */
-  background: #8bc141; 
+  background: #8bc141;
   /* FF3.6+ */
-  background: -moz-linear-gradient(top,  #8bc141 0%, #6c9b2b 100%); 
+  background: -moz-linear-gradient(top,  #8bc141 0%, #6c9b2b 100%);
   /* Chrome,Safari4+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8bc141), color-stop(100%,#6c9b2b)); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8bc141), color-stop(100%,#6c9b2b));
   /* Chrome10+,Safari5.1+ */
-  background: -webkit-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%); 
+  background: -webkit-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%);
   /* Opera 11.10+ */
-  background: -o-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%); 
+  background: -o-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%);
   /* IE10+ */
-  background: -ms-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%); 
+  background: -ms-linear-gradient(top,  #8bc141 0%,#6c9b2b 100%);
   /* W3C */
-  background: linear-gradient(to bottom,  #8bc141 0%,#6c9b2b 100%); 
+  background: linear-gradient(to bottom,  #8bc141 0%,#6c9b2b 100%);
   /* IE6-9 */
-  filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#8bc141', endColorstr='#6c9b2b',GradientType=0 ); 
+  filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#8bc141', endColorstr='#6c9b2b',GradientType=0 );
 
   padding:8px 15px;
   font-size: .8em;
@@ -6016,7 +6016,7 @@ a.list-group-item.active:focus .list-group-item-text {
 
 .close:hover,
 .close:focus {
-  
+
   text-decoration: none;
   cursor: pointer;
   /*
@@ -7463,7 +7463,7 @@ td.visible-print {
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle:before,
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle:after {
     display: block;
-    margin-bottom:-3px; 
+    margin-bottom:-3px;
 }
 
 .bootstrap-select.btn-group .no-results {
@@ -7507,7 +7507,7 @@ td.visible-print {
     border:0;
     border:none;
     padding: 4px 8px;
-    //outlinecolor 
+    //outlinecolor
 }
 .input-block-level{
     border-color: #f1c40f;
@@ -7515,7 +7515,7 @@ td.visible-print {
   box-shadow: none;
   outline: 0;
   border: 0;
-} 
+}
 .form-control{
     border-color: #f1c40f;
   -webkit-box-shadow: none;
@@ -17714,4 +17714,179 @@ p.content span.title {
   to {
     opacity: 0.5;
   }
+}
+
+.datepicker-dates {
+	position: relative;
+	width: 156px;
+	height: 100%;
+	margin-top: 0.5em;
+}
+.datepicker {
+	position: relative;
+	height: 220px;
+	width: 170px;
+	z-index: 10;
+}
+.datepicker .day {
+	position: absolute;
+}
+.datepicker .day a {
+	width: 22px;
+	display: block;
+	text-align: center;
+	color: #222;
+	text-decoration: none;
+	padding: 2px;
+}
+.datepicker .day a:hover {
+	background-color: #eaeaea;
+}
+.datepicker .out .day a {
+	color: #bcbcbc;
+}
+.datepicker .monthpicker {
+	margin: 0.2em;
+	text-align: center;
+}
+.datepicker .day.selected {
+	background-color: #c9c9c9;
+}
+.datepicker .dayInWeek-1 {
+	left: 0;
+}
+.datepicker .dayInWeek-2 {
+	left: 22px;
+}
+.datepicker .dayInWeek-3 {
+	left: 44px;
+}
+.datepicker .dayInWeek-4 {
+	left: 66px;
+}
+.datepicker .dayInWeek-5 {
+	left: 88px;
+}
+.datepicker .dayInWeek-6 {
+	left: 110px;
+}
+.datepicker .dayInWeek-0 {
+	left: 132px;
+}
+.datepicker .week-1 {
+	top: 0;
+}
+.datepicker .week-2 {
+	top: 24px;
+}
+.datepicker .week-3 {
+	top: 48px;
+}
+.datepicker .week-4 {
+	top: 72px;
+}
+.datepicker .week-5 {
+	top: 96px;
+}
+.datepicker .week-6 {
+	top: 120px;
+}
+.datepicker-container {
+	position: relative;
+	border: 1px solid #979797;
+	padding: 0.5em;
+	background-color: #fff;
+	height: 220px;
+}
+.datepicker-wrapper {
+	position: absolute;
+}
+.wide-datepicker-dates {
+	position: relative;
+	width: 186px;
+	height: 100%;
+	margin-top: 0.5em;
+}
+.wide-datepicker {
+	position: relative;
+	height: 220px;
+	width: 200px;
+	z-index: 10;
+}
+.wide-datepicker .day {
+	position: absolute;
+}
+.wide-datepicker .day a {
+	width: 26px;
+	display: block;
+	text-align: center;
+	color: #222;
+	text-decoration: none;
+	padding: 2px;
+}
+.wide-datepicker .day a:hover {
+	background-color: #eaeaea;
+}
+.wide-datepicker .out .day a {
+	color: #bcbcbc;
+}
+.wide-datepicker .monthpicker {
+	margin: 0.2em;
+	text-align: center;
+}
+.wide-datepicker .day.selected {
+	background-color: #c9c9c9;
+}
+.wide-datepicker .dayInWeek-1 {
+	left: 0;
+}
+.wide-datepicker .dayInWeek-2 {
+	left: 26px;
+}
+.wide-datepicker .dayInWeek-3 {
+	left: 52px;
+}
+.wide-datepicker .dayInWeek-4 {
+	left: 78px;
+}
+.wide-datepicker .dayInWeek-5 {
+	left: 104px;
+}
+.wide-datepicker .dayInWeek-6 {
+	left: 130px;
+}
+.wide-datepicker .dayInWeek-0 {
+	left: 156px;
+}
+.wide-datepicker .week-1 {
+	top: 0;
+}
+.wide-datepicker .week-2 {
+	top: 24px;
+}
+.wide-datepicker .week-3 {
+	top: 48px;
+}
+.wide-datepicker .week-4 {
+	top: 72px;
+}
+.wide-datepicker .week-5 {
+	top: 96px;
+}
+.wide-datepicker .week-6 {
+	top: 120px;
+}
+.wide-datepicker-container {
+	position: relative;
+	border: 1px solid #979797;
+	padding: 0.5em;
+	background-color: #fff;
+	height: 220px;
+}
+.wide-datepicker-wrapper {
+	position: absolute;
+}
+
+.datepicker > div {
+	display: inherit;
 }
