@@ -1,0 +1,867 @@
+@import'../_mixin/_color.scss';
+@import'../_mixin/_global.scss';
+@import'../_mixin/_input.scss';
+/* Basic Form Elements
+==========================================*/
+
+.save, .create {
+    padding: 10px 8%;
+    @include btn($green, $d_green, $white, $l_green);
+}
+.logout, .cancel {
+    padding: 10px 8%;
+    @include btn($red, $d_red, $white, $l_red);
+    &:hover {
+        color: $white !important;
+    }
+}
+form.standard {
+    &.padded {
+        padding: 10px;
+    }
+    .subtitle {
+        font-style: italic;
+    }
+    .row1 {
+        padding: 10px 0;
+        input, textarea {
+            width: 100%;
+        }
+        label {
+            padding: 10px 0;
+        }
+    }
+    p {
+        padding: 10px 0;
+        font-size: .9em;
+    }
+}
+/* Regions
+================================================*/
+
+.left_triple {
+    @include w_f_m_block(30%, left, 0);
+    vertical-align: top;
+}
+.center_triple {
+    @include w_f_m_block(38%, left, 0 1%);
+    vertical-align: top;
+    text-align: left;
+}
+.right_triple {
+    @include w_f_m_block(30%, left, 0);
+    text-align: right;
+    vertical-align: top;
+}
+.left_double {
+    @include w_f_m_block(70%, left, 0);
+    vertical-align: top;
+}
+.right_double {
+    margin-left: 1%;
+    width: 29%;
+    vertical-align: top;
+}
+/*
+* ----------- Bullitin
+*/
+
+.header {
+    @include gradient($l_gray, $gray);
+    border: 1px solid $gray;
+    padding: 3px 0;
+    //background-image: url('../img/event-header-bg.png');
+    @include border-top-radius(4px);
+    overflow: hidden;
+}
+.bullitin {
+    background: $white;
+    //@include gradient($l_gray, $gray);
+    @include border-top-radius(4px);
+    font-size: .9em;
+    padding: 0;
+    margin-bottom: 10px;
+    .partition {
+        vertical-align: middle;
+    }
+    .hideShow {
+        margin-right: 10px;
+    }
+    .icon {
+        width: 10%;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    .name {
+        width: 75%;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5em;
+    }
+}
+.hideShow {
+    float: right;
+    font-size: .7em;
+    text-align: center;
+    padding: 4px 6px 4px;
+    cursor: pointer;
+    color: $d_gray;
+    @include insetShadow(0, 1px, 1px, $black);
+    @include border-radius(60%);
+    // margin-right: 10px;
+    // text-indent: 1px;
+    line-height: 1.2em;
+    &:hover {
+        color: $black;
+    }
+}
+/*
+  =======================================*/
+
+.group_list {
+    padding: 0;
+    margin: 0 auto;
+}
+.event_list {
+    padding: 0;
+    margin: 0 auto;
+}
+.course_list {
+    padding: 0;
+    margin: 0 auto;
+}
+/* Description
+  ====================================*/
+
+.aboutCatTitle {
+    font-size: 2em;
+    font-style: bold;
+}
+.aboutWrapper {
+    padding: 5px;
+}
+.aboutContent {
+    padding: 5%;
+    font-size: 1em;
+    text-align: left;
+}
+.description_container {
+    padding-top: 10px;
+    dl {
+        line-height: 1em;
+        vertical-align: top;
+        width: 100%;
+        margin: 0px;
+        padding: 5px;
+    }
+    dt {
+        color: #429500;
+        display: inline-block;
+        font-size: 0.7em;
+        width: 40%;
+        padding: 0px 2%;
+        margin: 0px;
+        line-height: 1em;
+        vertical-align: top;
+        font-weight: 600;
+    }
+    dd {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+        font-size: 0.7em;
+        line-height: 1em;
+        padding: 0px;
+        margin: 0px;
+    }
+}
+/*Content Region
+  ======================================*/
+
+.b_content_wrapper {
+    padding: 1% 0;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px -2px #000 inset, 0px -1px 8px -4px #000 inset;
+    .wrapper {
+        text-align: center;
+        padding: 1% 0;
+        margin: 3px auto;
+        &.add_btn {
+            text-align: center;
+        }
+    }
+    .question {
+        text-align: right;
+        width: 96%;
+        padding: 0 2%;
+        margin-bottom: 5px;
+        i {
+            cursor: pointer;
+            @include transition(.25s);
+            &:hover {
+                color: $gray;
+            }
+        }
+    }
+}
+.button {
+    position: relative;
+    margin: 5px auto;
+    &.green {
+        padding: 10px 8%;
+        @include btn($green, $d_green, $white, $l_green);
+        margin: 1% 0;
+    }
+    &.red {
+        padding: 10px 8%;
+        @include btn($red, $d_red, $white, $l_red);
+    }
+    &.yellow {
+        padding: 10px 8%;
+        @include btn($yellow, $d_yellow, $white, $l_yellow);
+    }
+}
+.desc {
+    font-size: .9em;
+    text-align: center;
+}
+/* small container
+========================================*/
+
+.body {
+    padding: 0 1% 1%!important;
+    margin: 0 !important;
+    background: linear-gradient(to bottom, #f7f7f7 0%, #cbcbcb 100%) repeat scroll 0% 0% padding-box transparent;
+}
+ul, li {
+    margin: 0;
+}
+/*  lists
+=====================================*/
+
+.listview {
+    background: linear-gradient(to bottom, #F7F7F7 0%, #CBCBCB 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 3%;
+    box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 1) inset, 0px -1px 1px -1px rgba(0, 0, 0, 0.7) inset;
+    .listview {
+        background: #eee;
+        padding: 3%;
+        box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 1) inset, 0px -1px 1px -1px rgba(0, 0, 0, 0.7) inset;
+        ;
+    }
+}
+.listview2 {
+    background: linear-gradient(to bottom, #F7F7F7 0%, #CBCBCB 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 1%;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+    margin-bottom: .1%;
+    .listview2 {
+        background: #fff;
+        padding: 1%;
+        box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+        border-radius: 4px;
+    }
+}
+.listview3 {
+    background: #fff;
+    padding: 1%;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+}
+.listview4 {
+    background: linear-gradient(to bottom, #F7F7F7 0%, #CBCBCB 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 3%;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+}
+.listbox {
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, #f7f7f7 0%, #fff 3%, #fff 99.5%, #cbcbcb 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 1%;
+}
+.listbox2 {
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px rgba(0, 0, 0, 0.7) inset;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, #F7F7F7 0%, #CBCBCB 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 1%;
+}
+.list_wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    // max-height: 219px;
+    box-shadow: 0 0 1px 0px rgba(0, 0, 0, 0.75), 0 1px 1px 0px rgba(255, 255, 255, 1);
+}
+.listview {
+    background: linear-gradient(to bottom, #f7f7f7 0%, #DBDBDB 100%) repeat scroll 0% 0% padding-box transparent;
+    padding: 3%;
+    box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 1) inset, 0px -1px 1px -1px rgba(0, 0, 0, 0.7) inset;
+    .listview {
+        background: linear-gradient(to bottom, #f7f7f7 0%, #DBDBDB 100%) repeat scroll 0% 0% padding-box transparent;
+        padding: 3%;
+        box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 1) inset, 0px -1px 1px -1px rgba(0, 0, 0, 0.7) inset;
+    }
+    .partition {
+        vertical-align: middle;
+        position: relative;
+    }
+    .profile_img {
+        margin-right: 1%;
+        width: 20%;
+        height: auto;
+        vertical-align: middle;
+        position: relative;
+        text-align: center;
+        .img_wrapper {
+            width: 100%;
+            height: auto;
+            @include border-radius(12%);
+            overflow: hidden;
+            margin: 0 auto;
+            display: block;
+            padding: 0;
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+    .content {
+        width: 70%;
+        font-size: .9em;
+        h4 {
+            text-transform: capitalize;
+            font-weight: 600;
+            margin-bottom: 5px;
+            a {
+                color: $d_green;
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+        td {
+            font-size: .9em;
+            padding: 0.1em 0.6em 0.2em 0;
+            a {
+                color: $d_green;
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+        .lbl {
+            font-size: .9em;
+            display: inline;
+            font-weight: bold;
+            line-height: 1;
+            color: #333;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25em;
+            text-shadow: 1px 1px 1px #f7f7f7;
+        }
+    }
+}
+.admin {
+    display: none;
+}
+.content {
+    td {
+        font-size: .9em;
+        padding: 0.1em 0.6em 0.2em 0;
+        a {
+            cursor: pointer;
+            font-weight: 700;
+            text-align: left;
+            color: $d_green;
+            &:hover {
+                color: $green;
+            }
+        }
+    }
+}
+//Admin View
+.large_list_wrapper {
+    // overflow-y: auto;
+    // overflow-x: hidden;
+    // max-height: 219px;
+}
+.listview4 {
+    // background: linear-gradient(to bottom, #F7F7F7 0%, #CBCBCB 100%) repeat scroll 0% 0% padding-box transparent;
+    // padding: 3%;
+    // box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px 0px #000 inset;
+    //basic partition
+    .partition {
+        vertical-align: middle;
+        position: relative;
+    }
+    //round profile image (admin view only)
+    .profile_img {
+        margin-right: 0;
+        width: 15%;
+        height: auto;
+        vertical-align: middle;
+        position: relative;
+        text-align: center;
+        .img_wrapper {
+            width: 100%;
+            height: auto;
+            @include border-radius(4%);
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 0;
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+    //details (admin view only)
+    .content {
+        width: 63%;
+        font-size: .9em;
+        h4 {
+            text-transform: capitalize;
+            font-weight: 600;
+            margin-bottom: 5px;
+            a {
+                color: $d_green;
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+        td {
+            font-size: .9em;
+            padding: 0.1em 0.6em 0.1em 0;
+        }
+        .lbl {
+            font-size: .9em;
+            display: inline;
+            font-weight: bold;
+            line-height: 1;
+            color: #333;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25em;
+            text-shadow: 1px 1px 1px #f7f7f7;
+        }
+    }
+    //admin buttons
+    .admin {
+        display: inline-block;
+        width: 20%;
+        font-size: .9em;
+        button {
+            &.red {
+                @include btn($red, $d_red, $white, $l_red);
+                padding: 8px 10px;
+            }
+            &.green {
+                @include btn($green, $d_green, $white, $l_green);
+                padding: 8px 10px;
+            }
+        }
+    }
+}
+button {
+    &.red {
+        @include btn($red, $d_red, $white, $l_red);
+        padding: 8px 10px;
+    }
+    &.green {
+        @include btn($green, $d_green, $white, $l_green);
+        padding: 8px 10px;
+    }
+    &.blue {
+        @include btn($fbookStandardBlue, $fbookDarkBlue, $white, $fbookLightBlue);
+        padding: 8px 10px;
+    }
+    &.orange {
+        @include btn($orange, $d_orange, $white, $l_orange);
+        padding: 8px 10px;
+    }
+}
+/* Search
+========================================*/
+
+.search_wrapper {
+    position: relative;
+    //background: none repeat scroll 0% 0% / 5px 5px $l_gray;
+    @include border-radius(5px);
+    color: $d_gray;
+    padding: 0;
+    //border:1px solid red;
+    width: 40%;
+    float: right;
+    margin: 23px 20px 0;
+}
+input.search_field {
+    background: none repeat scroll 0% 0% transparent;
+    border: medium none;
+    color: $d_gray;
+    font-size: .9em;
+    font-weight: 400;
+    margin: 0px;
+    line-height: 1.0em;
+    padding: 5px;
+    text-indent: 5px;
+    box-shadow: none;
+    background: none repeat scroll 0% 0% / 5px 5px $l_gray;
+    border: 1px solid $l_gray;
+}
+button.submit_search {
+    @include btn($d_gray, $black, $white, $black);
+    padding: 8px 10px;
+    position: relative;
+    display: inline-block;
+}
+/*
+.entity_search_wrapper{
+   position: relative;
+    //background: none repeat scroll 0% 0% / 5px 5px $l_gray;
+    @include border-radius(5px);
+    color: $d_gray;
+    padding:0;
+    margin:0;
+    width: 100%;
+    float: right;
+}
+*/
+/* Alert
+=============================================*/
+
+.news_region {
+    position: absolute;
+    text-align: center;
+    margin: 0px auto;
+    width: 25%;
+    left: 37.5%;
+    bottom: 24%;
+    @include transition(.25s);
+    z-index: 20;
+}
+.news_region_message {
+    background: rgba(205, 53, 28, 0.63);
+    color: $white;
+    text-align: left;
+    padding: 20px 10px;
+    font-size: .8em;
+}
+.news_region_btn {
+    @include btn($red, $d_red, $white, $l_red);
+    text-transform: uppercase;
+    padding: 10px 10px;
+}
+.sub_news_region {
+    @include border-radius(5px);
+    display: block;
+    padding: 20px;
+    font-size: .9em;
+    background: $red;
+    margin-top: 25px;
+    @include transition(.25s);
+}
+.news_region:hover .sub_news_region {
+    display: block;
+    z-index: 99999;
+    position: absolute;
+    text-align: left;
+}
+.sub_news_region:after {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 50px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent transparent $red;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    display: block;
+    width: 0px;
+}
+.sub_news_region:before {
+    position: absolute;
+    top: -60px;
+    left: 0px;
+    width: 155px;
+    height: 36px;
+    display: block;
+}
+.description_region {
+    position: absolute;
+    padding: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    background: $red;
+    height: 150px;
+    margin: -152px auto 0 3px;
+    width: 20%;
+    z-index: 99999;
+    line-height: 1.2em;
+    color: $white;
+    font-size: .8em;
+    text-align: left;
+}
+/* Comments / Posts
+============================================ */
+
+.comments_wrapper {
+    font-size: .9em;
+    background: $l_gray;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    div {
+        display: block;
+        margin: 0;
+    }
+    .c_header {
+        /*
+    color: $l_gray;
+    padding:10px 0;
+    text-indent:2.5%;
+    @include gradient($green, $d_green);
+    */
+    }
+    .c_body {
+        padding: 0;
+        text-align: center;
+        .c_body_container {
+            width: 100%;
+            margin: 0 auto;
+            text-align: left;
+            textarea {
+                width: 100%;
+                margin: 0 auto;
+                resize: none;
+                border-radius: 4px 4px 0px 0px;
+            }
+            .post_bar_bottom {
+                color: $l_gray;
+                padding: 10px 2%;
+                text-indent: 2.5%;
+                // @include gradient($green, $d_green);
+                @include bg3($green, $d_green, $white, $l_green);
+            }
+        }
+    }
+    .left_btn {
+        width: 50%;
+        float: left;
+    }
+    .right_btn {
+        width: 50%;
+        float: right;
+        text-align: right;
+    }
+    .add_img {
+        // width: 20%;
+        float: left;
+        text-align: center;
+        @include btn2($green, $d_green, $white, $l_green);
+        padding: 4.5px;
+        display: block;
+        // position: relative;
+    }
+    .centerIcon {
+        display: block;
+        text-indent: -.5px;
+        font-size: 1.45em;
+    }
+    .postFigure {
+        font-size: 0px;
+    }
+    .submit_comment {
+        @include btn2($green, $d_green, $white, $l_green);
+        padding: 8px 10px;
+        display: inline-block;
+        position: relative;
+    }
+    .hideItem {
+        display: none;
+    }
+}
+.empty_message {
+    text-shadow: 1px 1px 1px #E7E7E8;
+    font-size: 1em;
+    font-weight: 400;
+    font-style: italic;
+    text-align: center;
+}
+/* Chat (GOOGLE HANGOUT)
+Programmer : Chris Coyier
+Published : June 19, 2013
+http://css-tricks.com/replicating-google-hangouts-chat/
+
+Notes: Did not use Chris Coyiers code in its entirety.
+====================================== */
+/*
+<section class="module">
+
+  <header class="top-bar">
+    <h1>Hangouts</h1>
+    <!-- likely some spans and stuff -->
+  </header>
+
+  <ol class="conversation">
+    <li>
+      <img class="avatar" />
+      <div class="message">
+        <p>Talkie talk talk.</p>
+      </div>
+    <li>
+  </ol>
+
+</section>
+
+
+
+<li>
+  <div class="avatar">
+    <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/5/profile/profile-80_9.jpg" />
+  </div>
+  <div class="messages">
+    <p>yeah, they do early flights cause they connect with big airports.  they wanna get u to your connection</p>
+    <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+  </div>
+</li>
+
+
+<li class="self">
+  <!-- ... -->
+</li>
+<li class="other">
+  <!-- ... -->
+</li>
+
+*/
+
+@import url(http://weloveiconfonts.com/api/?family=typicons);
+[class*="typicons-"]:before {
+    font-family: 'Typicons', sans-serif;
+}
+.module {
+    width: 300px;
+    margin: 20px auto;
+}
+.top-bar {
+    background: #666;
+    color: white;
+    padding: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    h1 {
+        display: inline;
+        font-size: 1.1rem;
+    }
+    .typicons-message {
+        display: inline-block;
+        padding: 4px 5px 2px 5px;
+    }
+    .typicons-minus {
+        position: relative;
+        top: 3px;
+    }
+    .left {
+        float: left;
+    }
+    .right {
+        float: right;
+        padding-top: 5px;
+    }
+    > * {
+        position: relative;
+    }
+    /*
+&::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    bottom: -100%;
+    opacity: 0.25;
+    background: radial-gradient(white, black);
+    animation: pulse 1s ease alternate infinite;
+  }
+*/
+}
+.discussion {
+    list-style: none;
+    background: #e5e5e5;
+    margin: 0;
+    padding: 0 0 50px 0; // finality
+    li {
+        padding: 0.5rem;
+        overflow: hidden;
+        display: flex;
+    }
+    .avatar {
+        width: 40px; // stronger than %
+        // could set height, but gonna bottom-align instead
+        position: relative; // for triangle
+        img {
+            display: block; // triangle position
+            width: 100%;
+        }
+    }
+}
+.other {
+    .avatar {
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border: 5px solid white;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+        }
+    }
+}
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+    .messages {
+        order: 1;
+        border-bottom-right-radius: 0; // weird shadow fix
+    }
+    .avatar {
+        order: 2;
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border: 5px solid white;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+        }
+    }
+}
+.messages {
+    background: white;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(black, 0.2);
+    p {
+        font-size: 0.8rem;
+        margin: 0 0 0.2rem 0;
+    }
+    time {
+        font-size: 0.7rem;
+        color: #ccc;
+    }
+}

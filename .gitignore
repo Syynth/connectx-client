@@ -3,3 +3,4 @@ bin/*
 !bin/index.html
 !bin/final.css
 .DS_Store
+res/bower_components/

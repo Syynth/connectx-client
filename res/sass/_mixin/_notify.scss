@@ -1,0 +1,104 @@
+@import '../_mixin/_color.scss';
+
+@import '../_mixin/_global.scss';
+@import '../_mixin/_elements.scss';
+
+$icons: success error warning;
+
+@each $icon in $icons {
+  .icon-#{$icon} {
+    background-image: url(/imgs/icons/#{$icon}.png);
+  }
+}
+
+@mixin success(){
+  @include background($success_top, 150, 15, 0, .5);
+  @include gradient($success_top, $success_bottom);
+  -moz-box-shadow:inset 0px 1px 0px 0px #b1d89c;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #b1d89c;
+  box-shadow:inset 0px 1px 0px 0px #b1d89c;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #b1d89c), color-stop(1, $success_bottom) );
+  background:-moz-linear-gradient( center top, #b1d89c 5%, $success_bottom 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b1d89c', endColorstr='$success_bottom');
+  border:1px solid $success_top;
+  display:inline-block;
+  color:$white;
+  font-weight:bold;
+  font-style:normal;
+  text-decoration:none;
+
+  @include gradient($success_top, $success_bottom);
+
+}
+
+@mixin error(){
+  @include background($error_top, 71, 164, 71, .5);
+  @include gradient($error_top, $error_bottom);
+  -moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
+  box-shadow:inset 0px 1px 0px 0px #f5978e;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f) );
+  background:-moz-linear-gradient( center top, #f24537 5%, #c62d1f 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#c62d1f');
+  background-color:#f24537;
+  border:1px solid #d02718;
+  display:inline-block;
+  color:#f9c0c0;
+  font-weight:bold;
+  font-style:normal;
+  text-decoration:none;
+
+  @include gradient($error_top, $error_bottom);
+
+}
+
+#applicationNotificationRegion{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+
+  .notification {
+    width: 75%;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 600;
+    text-align: left;
+    margin:1px 12% 0px 12%;
+    padding:0;
+    text-indent:10%;
+    font-size: .9em;
+    background: $generic_msg;
+    position: relative;
+    @include border_radius(4px);
+    overflow: hidden;
+
+    &.success {
+      @include success();
+
+      .close{
+        color: $success_color;
+      }
+
+    }
+
+    &.failure {
+      @include error();
+
+      .close{
+        color: $error_color;
+      }
+    }
+
+    .close{
+      line-height: 30px;
+      margin-right:10%;
+      font-size: 1.2em;
+
+      &:hover{
+        color: $white;
+      }
+    }
+  }
+}

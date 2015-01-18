@@ -1,0 +1,56 @@
+@import '../_mixin/_color.scss';
+@import '../_mixin/_global.scss';
+@import '../_mixin/_elements.scss';
+
+html{
+	font-size:16px;
+	font-weight:300;
+	font-family: 'Lato', sans-serif;
+	padding: 0;
+	margin: 0;
+	display:block;
+}
+
+body{
+	font-size:100%;
+	width:100%;
+	height:100%;
+	display:block;
+	background: url(../img/bg.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+	#wrapper{
+		width:100%;
+		height:100%;
+		display:block;
+   	position:relative;
+   	margin: 0;
+   	padding: 0;
+	}
+
+	/* site skelleton */
+	#applicationBodyRegion{
+		width:90%;
+		height:auto;
+		display:block;
+		margin:0 auto;
+		max-width:960px;
+	}
+	header,main,footer{
+		width:100%;
+		height:auto;
+		display:block;
+		margin:0 auto;
+	}
+	main{margin: 10px auto;}
+	/* end skelleton */
+
+	.ads{
+		img{
+			width:100%;
+		}
+	}
+}

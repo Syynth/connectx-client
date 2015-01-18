@@ -1,0 +1,50 @@
+@import '../_mixin/_color.scss';
+@import '../_mixin/_elements.scss';
+@import '../_mixin/_global.scss';
+.review_item:hover .tooltip_hint:hover{
+	 //
+}
+.tooltip_hint {
+	outline: none;
+	cursor: pointer;
+	text-decoration: none;
+	position: relative;
+}
+.tooltip_hint span {
+	margin-left: -999em;
+	position: absolute;
+	color:$white;
+	font-weight:600;
+	text-transform:capitalize;
+}
+.tooltip_hint:hover span {
+	@include border-radius(5px);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	position: absolute;
+	left: 1em;
+	top: 2em;
+	z-index: 99;
+	margin-left: 0;
+	padding:5px 10px;
+	font-size:.8em;
+	font-family: 'Lato', sans-serif;
+	 /* 16 * 0.0625 = 1px */
+    letter-spacing: 0.0625em;
+}
+.tooltip_hint:hover img {
+	border: 0;
+	margin: -10px 0 0 -55px;
+	float: left;
+	position: absolute;
+}
+.tooltip_hint:hover em {
+	font-size: 1.2em;
+	font-weight: bold;
+	display: block; padding: 0.2em 0 0.6em 0;
+}
+.classic { padding: 0.8em 1em; }
+.custom { padding: 0.5em 0.8em 0.8em 2em; }
+* html a:hover { background: transparent; }
+.classic {background: $black; border: 1px solid $gray; }

@@ -1,0 +1,527 @@
+@import '../_mixin/_color.scss';
+@import '../_mixin/_global.scss';
+@import '../_mixin/_elements.scss';
+
+.home_wrapper{
+	/* @include block_100();ztz */
+	margin:0 auto;
+	padding:10px 0 0;
+	background: url(../img/linen-bg.png) repeat center center;
+}
+.tabText{
+@include transition(all .5s ease-in-out);
+opacity: 0;
+ 
+}
+
+.tabText:target{opacity:1;};
+.tabTextHide{}
+header[role='banner']{
+	&.home{
+
+		.partition{
+			padding: 10px 0;
+		}
+
+		.logo{
+			width:30%;
+			text-align:center;
+			vertical-align: top;
+		}
+		.nav{
+			width:68%;
+			text-align:right;
+		}
+	}
+}
+
+hr{
+	&.divider_tag{
+		color: $white;
+		border:1px solid $white;
+		width: 80%;
+		margin:0 auto;
+	}
+}
+
+ul.buttonRow{
+	li{
+		display: inline-block;
+
+		&.login{
+			padding:10px 8%;
+			@include btn($green, $d_green, $white, $l_green);
+		}
+		&.logout{
+			padding:10px 8%;
+			@include btn($red, $d_red, $white, $l_red);
+		}
+		&.register{
+			padding:10px 8%;
+			@include btn($yellow, $d_yellow, $white, $l_yellow);
+		}
+		&.facebook{
+			padding:10px 8%;
+			@include btn($fbookStandardBlue, $fbookDarkBlue, $white, $fbookLightBlue);
+
+			i{
+				margin-right: 10px;
+			}
+		}
+	}
+}
+ul.navbar{
+	padding:0;
+	margin:20px 0;
+	text-align:right;
+
+	li{
+		position: relative;
+		margin: 0;
+		padding:10px 0;
+		float: right;
+		font-size: .8em;
+		width: 13%;
+		height: 60px;
+		text-align:center;
+		text-transform: capitalize;
+		line-height: 39px;
+		color:$white;
+		cursor: pointer;
+		@include gradient($navbarLightNavyBlue, $navbarDarkNavyBlue);
+		box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.4), -1px 1px 1px 0px rgba(0,0,0,.2) inset;
+
+		&.img{
+			padding:0;
+			width: 7%;
+
+			img{
+				margin-top: 15px;
+			}
+		}
+		a{
+			.navBtn{position:absolute;top:0;left:0;bottom:0;right:0; line-height:62px;}
+			color:$white;
+			&.img{
+				line-height:1em !important;
+				padding: 0px 10px !important;
+				vertical-align: bottom;
+
+				figure{
+					padding:0 !important;
+				}
+			}
+			&:hover{
+				color:$white;
+			}
+		}
+
+		&.social{
+			width: 7%;
+			font-size: 1.2em;
+		}
+
+		&.corners_left{
+			@include border-left-radius(5px);
+		}
+		&.corners_right{
+			@include border-right-radius(5px);
+		}
+
+		&:hover{
+			box-shadow: -1px 1px 1px 1px rgba(255, 255, 255, 0.6), 0px 1px 1px 1px rgba(0,0,0,.8) inset, 0px 1px 2px -1px rgba(0,0,0,.8) inset;
+		}
+	}
+}
+
+.about{
+	.partition{
+		width: 49.7%;
+		vertical-align: middle;
+		text-align:center;
+
+		h2{
+			font-size: 1.6em;
+			padding:2% 5%;
+			letter-spacing: .01em;
+			line-height: 1.3em;
+		}
+		p{
+			padding:2% 5%;
+			font-size: .9em;
+			line-height: 1.1em;
+			color:$d_gray;
+		}
+		button{
+			margin: 20px auto;
+			padding:10px 8%;
+			@include btn($yellow, $d_yellow, $black, $l_yellow);
+			text-shadow: 1px 1px 1px #f7f7f7;
+			@include border-radius(50px);
+		}
+		.clubhouse{
+			margin: 20px auto;
+			padding:10px 8%;
+			@include btn($yellow, $d_yellow, $black, $l_yellow);
+			text-shadow: 1px 1px 1px #f7f7f7;
+			@include border-radius(50px);		}
+	}
+}
+
+.mid{
+	background-image: url('../img/grass.png');
+	background-repeat: repeat-x;
+	background-position: center bottom;
+	padding: 0px;
+	min-height: 171px;
+	border-bottom:2px solid $gray;
+
+	.partition{
+		vertical-align: top;
+	}
+	.keypoints{
+		border:5px solid $green;
+		width:77%;
+		margin-left: 2%;
+		padding:2%;
+		img{
+			width: 100%;
+		}
+	}
+	.keypoints_empty{
+		width:77%;
+		margin-left: 2%;
+		padding:2%;
+		img{
+			width: 100%;
+		}
+	}
+
+	.golf_ball{
+		width: 20%;
+		text-align: right;
+		margin-bottom:-2px;
+	}
+}
+
+.home-vid{
+	padding-right: 15px !important;
+}
+.empty_mid{
+	background-image: url('../img/grass.png');
+	background-repeat: repeat-x;
+	background-position: center bottom;
+	padding: 0px;
+	min-height: 50px;
+	border-bottom:2px solid $gray;
+}
+
+.section{
+	.partition{
+		width: 31%;
+		padding:1%;
+		vertical-align: top;
+	}
+
+	.search{
+		text-align:center;
+
+		ul#search{
+			li{
+				background-repeat: no-repeat;
+				height: 58px;
+				width: 218px;
+				background-repeat: no-repeat;
+				background-position: center center;
+				margin:10px auto;
+				position: relative;
+				.linkBtn{position:absolute;top:0;left:0;bottom:0;right:0; line-height:62px;}
+				&.groups{
+					background-image: url('../img/btns/groups_yellow_btn.png');
+
+					&:hover{
+						background-image: url('../img/btns/groups_yellow_btn_hover.png');
+					}
+				}
+				&.golfers{
+					background-image: url('../img/btns/golfers_yellow_btn.png');
+
+					&:hover{
+						background-image: url('../img/btns/golfers_yellow_btn_hover.png');
+					}
+				}
+				&.events{
+					background-image: url('../img/btns/events_yellow_btn.png');
+
+					&:hover{
+						background-image: url('../img/btns/events_yellow_btn_hover.png');
+					}
+				}
+			}
+		}
+	}
+
+	.features{
+		ul#features{
+			li{
+				padding:5px 0;
+
+				&.odd{
+					background-image: url('../img/green-ball.png');
+					background-repeat: no-repeat;
+					background-position: 3% 0px;
+					padding-left: 8%;
+				}
+				&.even{
+					background-image: url('../img/yellow-ball.png');
+					background-repeat: no-repeat;
+					background-position: 3% 0px;
+					padding-left: 8%;
+				}
+				div{
+					width: 98%;
+					padding-left: 5%;
+					text-align: left;
+					color: black;
+					margin-bottom: 8px;
+					font-size: .8em;
+
+					strong{
+						font-weight: 600;
+					}
+				}
+			}
+		}
+	}
+
+
+	.blog{
+
+		.blog_item{
+			width: 96%;
+			padding-left: 10px;
+			font-size: .8em;
+
+			img{
+				float: left;
+				margin-left: 13px;
+				margin-right: 10px;
+				width: 20%;
+			}
+
+			.headline{
+				font-family: "Titillium Web",sans-serif;
+			    font-weight: 600;
+			    text-transform: uppercase;
+
+			}
+
+			p{
+				text-align: left;
+				line-height: 1.2em;
+				margin: 0px 0px 10px;
+			}
+		}
+	}
+
+
+	h1{
+		color: $black;
+		font-size: 1.0em;
+		text-transform: uppercase;
+		width: 80%;
+		margin: 5px auto 20px;
+		border: 5px solid $yellow;
+		line-height: 40px;
+		font-weight: bold;
+		text-align:center;
+	}
+	img.header{
+		float: left;
+	}
+
+}
+
+#tabstrip{
+	margin: 20px auto;
+	width: 100%;
+	text-align: center;
+}
+
+#tab_container{
+	width: 90%;
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	z-index: 9;
+	span{
+		&.tab{
+		    padding: 0 12px;
+		    display: block;
+		    float: left;
+
+			.title{
+
+				padding: 9px 15px;
+				cursor: pointer;
+				font-weight: 600;
+				text-transform: uppercase;
+				border-radius: 5px 5px 0px 0px;
+				font-family: "Titillium Web",sans-serif;
+
+				&.active{
+					text-shadow: 1px 1px 1px #595959;
+					background-color: $green;
+					color: #F7CE6E;
+
+					&:hover{
+						text-shadow: 1px 1px 2px #595959;
+						color: #FFBA3E;
+					}
+				}
+				&.inactive{
+					text-shadow: 1px 1px 1px #F7F7F7;
+					color: #000;
+					background-color: $yellow;
+					position: relative;
+					z-index: 99;
+
+					&:hover{
+						color: #429500;
+					}
+				}
+			}
+
+			.arrow{
+				width: 0px;
+				height: 0px;
+				border-top: 35px solid transparent;
+				border-left: 10px solid $yellow;
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: -5px;
+				margin-top: 5px;
+
+				&.active{
+					border-left: 10px solid $green;
+				}
+			}
+		}
+	}
+}
+#content_tab{
+	width: 90%;
+	margin: -5px auto 20px auto;
+	padding-top: 10px;
+	@include gradient($yellow, $d_yellow);
+	position: relative;
+	z-index: 99;
+	@include border-right-radius(20px);
+
+	.seperator{
+		border-top: 10px solid #F7F7F7;
+		border-radius: 0px 20px 0px 0px;
+		z-index: 9999;
+		@include border_radius_all(0, 20px, 0, 0);
+	}
+
+	.content{
+		padding:10px 5%;
+		table{
+			tbody{
+				tr{
+					td{
+						float: left;
+						display: inline-block;
+
+						&.tab_image{
+							padding: 20px;
+							margin: 0px;
+							width: 30%;
+							img{
+								border: 3px solid $green;
+							}
+						}
+						&.tab_content{
+							padding: 0px;
+						    margin: 0px;
+						    width: 65%;
+						    float: right;
+						    text-shadow: 1px 1px 1px #F1F1F1;
+						    font-size: 0.9em;
+						    display: none;
+
+						    .divider{
+						    	float: left;
+								margin: 0px 2% 0px 0px;
+
+								img{
+									height: auto;
+									max-width: 100%;
+									vertical-align: middle;
+									border: 0px none;
+								}
+						    }
+
+						    .tabTitle{
+						    	width: 60%;
+								line-height: 40px;
+								margin: 20px 0px;
+								float: left;
+
+								span{
+									display: inline-block;
+									float: left;
+									padding: 0px;
+									margin: 0px;
+
+									img{
+										position: relative;
+										z-index: 99;
+									}
+
+									&.tab_title_text{
+										margin: 2px -4px 0px;
+										background-color: #F7F7F7;
+										padding: 0px 20px;
+										font-weight: 600;
+									}
+								}
+						    }
+						    .tab_content{
+						    	width: 90%;
+								float: left;
+								color: #000;
+								text-align: justify;
+								margin-bottom: 20px;
+
+
+								h4{
+									margin: 10px 0px;
+									font-family: inherit;
+									font-weight: bold;
+									font-size: 1.3em;
+									line-height: 20px;
+									color: inherit;
+									text-rendering: optimizelegibility;
+								}
+
+								p{
+									text-indent: 20px;
+								}
+						    }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+@media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */ }
+@media (min-width:480px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:640px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:960px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1024px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1280px) { /* hi-res laptops and desktops */ }

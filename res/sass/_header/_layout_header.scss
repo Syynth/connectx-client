@@ -1,0 +1,318 @@
+@import'../_mixin/_color.scss';
+@import'../_mixin/_global.scss';
+@import'../_mixin/_elements.scss';
+.header_wrapper {
+    @include block_100();
+    /*ztz*/
+    
+    margin: 0 auto;
+}
+.clubhouse{
+    .header_logo{
+        margin: 0 auto -6% auto;
+    }
+    .entity_nav_wrapper{
+ .user_info_wrapper{
+    .fa{
+        line-height: 2.3em;
+    }
+    .red{
+        .fa{
+            line-height: 1.3em;
+        }
+    }
+}
+}
+}
+.header_logo {
+    //background:url('../img/logo.png');
+    img {
+        max-width: 14%;
+    }
+    //height:175px;
+    margin: 0 auto; 
+    padding-left: 2%;
+    @include block_100();
+    /*ztz*/
+}
+
+
+.event,.group,.course {
+    &.header_wrapper {
+        .header_logo {
+            margin: 0 auto;
+        }
+    }
+}
+.cover-fig {
+    @include block_100();
+    /*ztz*/
+    
+    @include height_max(250px);
+}
+.cover_img {
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 2px solid $gray;
+    position: relative;
+    //border-right:3px solid $gray;
+}
+.cover-img {
+    @include block_100();
+}
+.header_event {
+    border: 2px solid #F7F7F7;
+    height: 72px;
+    box-shadow: 0px 0px 5px #000 inset;
+    background-image: url('../img/event-name.png');
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(66, 66, 66, 0.4), 0px 18px 23px rgba(66, 66, 66, 0.4);
+    max-width: 960px;
+    margin: 0 auto;
+    line-height: 80px;
+    font-size: 40px;
+    text-align: center;
+    color: #B69A8A;
+    font-weight: 600;
+    text-shadow: 0px 2px #310;
+    font-family: 'Great Vibes', cursive;
+    .header_logo {
+        //background:url('../img/logo.png');
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid orange;
+        img {
+            max-width: 150px;
+        }
+        //height:175px;
+        margin-top: 2%;
+    }
+}
+/* Clubhouse
+=======================================*/
+
+.roof {
+    height: 39px;
+    width: 101%;
+    padding-top: 25%;
+    background-image: url('../img/clubhouse-title.png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% auto;
+    margin: 1% 0 0 -.5%;
+}
+.ch_name_wrapper {
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin-top: -.1%;
+}
+.clubhouse_name {
+    line-height: 1.2em;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    margin-top: -3.6%;
+    text-align: center;
+    text-shadow: 1px 1px 1px #ffffff;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .8);
+}
+.sub_roof {
+    @include block_100();
+    @include margin_auto(0, 0);
+    overflow: hidden;
+    position: relative;
+}
+.pic {
+    width: 150px;
+    height: 100%;
+    min-height: 250px;
+    background-image: url('../img/clubhouse-tee.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center bottom;
+    position: absolute;
+    z-index: 5;
+    bottom: -1%;
+    left:1%;
+}
+.profile_img {
+ width: 130px;
+ height: 130px
+ //    position: absolute;
+	// top: 0;
+	// bottom: 0;
+	// left: 0;
+	// right: 0;
+ //    display: inline-block;
+}
+.overlay {
+    /* 	max-width: 180px;
+	max-height: 180px; */
+    
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 4px 1px #555;
+    position: relative;
+    top: 32.5%;
+    left: 5.6%;
+    z-index: 3;
+    overflow: hidden;
+}
+.user_info_wrapper {
+    @include block_100();
+}
+.user_info {
+    float: left;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    padding: 0 0 10px;
+    line-height: 1.5em;
+    font-weight: 300;
+    font-family: 'Titillium Web', sans-serif;
+    .fa{
+        float: left;
+        padding-right: 5px;
+        line-height: 1.5em;
+
+    }
+    .name{
+        float: left;
+    }
+    img {
+        display: inline-block;
+    }
+    a {
+        line-height: 2.6em;
+        float: left;
+        color: $link;
+        font-size: .9em;
+        text-transform: capitalize;
+        &:hover {
+            color: $link_hover;
+        }
+    }
+}
+/* Entity ( Courses )
+=======================================*/
+
+.header_entity {
+    @include block_100();
+    @include margin_auto(0, 0);
+    padding: 20px 0;
+    background: url('../img/assets/header_background.png') no-repeat center top;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: center;
+    color: $white;
+    @include textShadow3DDark();
+}
+.sub_entity {
+    @include block_100();
+    @include margin_auto(0, 0);
+    overflow: hidden;
+    position: relative;
+    .connect_wrapper {
+        position: absolute;
+        z-index: 9999;
+        text-align: right;
+        bottom: 22%;
+        right: 3%;
+    }
+    .date {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        margin: 30px 20px 0 0;
+        padding-right: 20px;
+        .dayRibbon {
+            width: 94px;
+            padding: 0px;
+            margin: 10px auto 15px;
+            text-align: center;
+            font-size: 1.6em;
+        }
+        .monthRibbon {
+            width: 80%;
+            margin: 0 auto;
+            font-size: 2.2em;
+            font-weight: 400;
+            color: #CD351C;
+            text-align: center;
+            line-height: 1em;
+            text-shadow: 1px 1px 1px #9AEC8F;
+        }
+        .numberRibbon {
+            padding: 0px 4%;
+            line-height: 1em;
+            font-size: 4em;
+            text-align: center;
+        }
+    }
+    .directions {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 10px 10px;
+        background-image: url('../img/event-name.png');
+        background-position: -50px 200px;
+        border: 2px solid #F7F7F7;
+        z-index: 999;
+        box-shadow: 0px 0px 5px #000 inset;
+        text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(66, 66, 66, 0.4), 0px 18px 23px rgba(66, 66, 66, 0.4);
+        input {
+            &.submit {
+                padding: 5px 10px;
+                color: $white;
+                @include border_radius(5px);
+                @include gradient($link_hover, $link);
+                @include transition(.25s);
+                text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.4), 0px 18px 23px rgba(0, 0, 0, 0.4);
+                border: 0;
+                border: none;
+                border-width: 1px;
+                border-style: solid;
+                -moz-border-top-colors: none;
+                -moz-border-right-colors: none;
+                -moz-border-bottom-colors: none;
+                -moz-border-left-colors: none;
+                border-image: none;
+                border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #B3B3B3;
+            }
+        }
+    }
+    .banner {
+        color: #F7F7F7;
+        height: 216px;
+        width: 94px;
+        float: right;
+        z-index: 9999;
+        background-image: url('../img/date-banner.png');
+    }
+}
+/* Connect Region
+============================*/
+
+.connect_wrapper {
+    position: absolute;
+    z-index: 9999;
+    text-align: right;
+    bottom: 10%;
+    right: 3%;
+    .connect_btn {
+        &.red {
+            padding: 10px 20px;
+            @include btn($red, $d_red, $white, $l_red);
+        }
+    }
+}

@@ -1,0 +1,44 @@
+@import '../_mixin/_color.scss';
+@import '../_mixin/_global.scss';
+@import '../_mixin/_elements.scss';
+
+.footer_wrapper{
+	margin:0 auto;
+  	@include block_100();/*ztz*/
+  	padding: 20px 0;
+}
+
+.footer{
+	width: 100%;
+	
+	margin:0 auto;
+}
+
+#sponsor .whitebg{
+	padding: 0;
+	margin: 0;
+	background: $white;
+	display: block;
+}
+
+.footer_item{
+	font-size: .8em;
+	padding: 10px 0;
+
+	li{
+		display: inline-block;
+		padding: 2px 10px;
+		cursor: pointer;
+
+		a{
+			color: $d_gray;
+
+			&:hover{
+				color: $black;
+			}
+		}
+		&.lastChild{
+			float: right;
+		}
+	}
+}

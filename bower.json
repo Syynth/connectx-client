@@ -1,0 +1,20 @@
+{
+  "name": "connectx-client",
+  "version": "0.0.0",
+  "authors": [
+    "Ben Cochrane <ben.cochrane2112@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "res/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.1"
+  }
+}

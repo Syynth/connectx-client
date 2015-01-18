@@ -1,0 +1,500 @@
+@import '../_mixin/_color.scss';
+@import '../_mixin/_global.scss';
+
+input,
+button,
+select,
+textarea {
+  font-family: 'Lato', sans-serif;
+  border:1px solid $gray;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.max_width{
+  width:100%;
+}
+//for dropdown with autocomplete
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"]{
+  height:35px;
+
+  &.input-block-level{
+    width: 100% !important;
+  }
+}
+/*
+     Uneditable/Disabled Input Fields
+*/
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  border: 2px solid $gray !important;
+  padding: 7px 6px 6px 6px;
+  text-indent: 6px;
+  font-size: .8em;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  @include border-radius(4px);
+  @include background_clip();
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  -webkit-transition: border .25s linear, color .25s linear;
+  -moz-transition: border .25s linear, color .25s linear;
+  -o-transition: border .25s linear, color .25s linear;
+  transition: border .25s linear, color .25s linear;
+  // -webkit-backface-visibility: hidden;
+}
+textarea:-moz-placeholder,
+input[type="text"]:-moz-placeholder,
+input[type="password"]:-moz-placeholder,
+input[type="datetime"]:-moz-placeholder,
+input[type="datetime-local"]:-moz-placeholder,
+input[type="date"]:-moz-placeholder,
+input[type="month"]:-moz-placeholder,
+input[type="time"]:-moz-placeholder,
+input[type="week"]:-moz-placeholder,
+input[type="number"]:-moz-placeholder,
+input[type="email"]:-moz-placeholder,
+input[type="url"]:-moz-placeholder,
+input[type="search"]:-moz-placeholder,
+input[type="tel"]:-moz-placeholder,
+input[type="color"]:-moz-placeholder,
+.uneditable-input:-moz-placeholder {
+  text-transform: uppercase !important;
+}
+textarea::-webkit-input-placeholder,
+input[type="text"]::-webkit-input-placeholder,
+input[type="password"]::-webkit-input-placeholder,
+input[type="datetime"]::-webkit-input-placeholder,
+input[type="datetime-local"]::-webkit-input-placeholder,
+input[type="date"]::-webkit-input-placeholder,
+input[type="month"]::-webkit-input-placeholder,
+input[type="time"]::-webkit-input-placeholder,
+input[type="week"]::-webkit-input-placeholder,
+input[type="number"]::-webkit-input-placeholder,
+input[type="email"]::-webkit-input-placeholder,
+input[type="url"]::-webkit-input-placeholder,
+input[type="search"]::-webkit-input-placeholder,
+input[type="tel"]::-webkit-input-placeholder,
+input[type="color"]::-webkit-input-placeholder,
+.uneditable-input::-webkit-input-placeholder {
+  text-transform: uppercase !important;
+}
+textarea.placeholder,
+input[type="text"].placeholder,
+input[type="password"].placeholder,
+input[type="datetime"].placeholder,
+input[type="datetime-local"].placeholder,
+input[type="date"].placeholder,
+input[type="month"].placeholder,
+input[type="time"].placeholder,
+input[type="week"].placeholder,
+input[type="number"].placeholder,
+input[type="email"].placeholder,
+input[type="url"].placeholder,
+input[type="search"].placeholder,
+input[type="tel"].placeholder,
+input[type="color"].placeholder,
+.uneditable-input.placeholder {
+  font-style: oblique;
+  text-transform: uppercase !important;
+}
+
+input.login-field{
+  font-size:.9em;
+}
+textarea{
+  min-height:90px;
+  line-height:1.2em;
+}
+
+/*
+*
+--------------------  CUSTOM FILE INPUT
+
+%p.file
+      %input#file{type: 'file', name: 'name'}
+      %label{for:'name'} Upload your file
+*
+*/
+
+.file {
+  position: relative;
+  margin: 10px auto;
+  width:100%;
+  float: left;
+
+  label {
+    text-align: center;
+    width:100%;
+    content: 'Choose profile image';
+    color: $white;
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+    // @include gradient($yellow, $d_yellow);
+    @include btn($yellow,$d_yellow,$white,$l_yellow);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 10px 20px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    font-size: .8em;
+    @include transition(.25s);
+    @include border-radius(50px);
+  }
+
+  input {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 0;
+    opacity: 0.01;
+    cursor: pointer;
+  }
+}
+
+.file input:hover + label,
+.file input:focus + label {
+  // @include textShadow3DDarkLight();
+  // text-decoration:underline;
+}
+input#tagsinput_tag{
+  width:100%;
+}
+
+/*
+*
+--------------------  CUSTOM RADIO BUTTON INPUT
+%div.roundedOne
+  %input#male.col2{name: 'gender', value: 'male', type: 'radio'}
+  %label{for: 'male'}
+    %span.label Male
+*
+*/
+.roundedOne {
+  width: 18px;
+  height: 18px;
+  background: #fcfff4;
+  position:relative;
+  display: inline-block;
+  vertical-align: middle;
+  @include gradient(#fcfff4, #dfe5d7);
+  margin: 0 5%;
+
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  border-radius: 40px;
+
+  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  position: relative;
+
+  &+span{
+    position:relative;
+    display: inline-block;
+    padding:0 10px;
+    line-height: 30px;
+    vertical-align: middle;
+    color: $white;
+    font-size: .9em;
+  }
+
+  label {
+    cursor: pointer;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    left: 3px;
+    top: 3px;
+
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    @include gradient($d_gray, $gray);
+    .no{
+      left: 4px;
+      top: 3px;
+    }
+    span{
+      margin:-8px 12px 0 20px;
+    }
+  }
+  label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #00bf00;
+
+    background: -webkit-linear-gradient(top, $l_green 0%, $d_green 100%);
+    background: -moz-linear-gradient(top, $l_green 0%, $d_green 100%);
+    background: -o-linear-gradient(top, $l_green 0%, $d_green 100%);
+    background: -ms-linear-gradient(top, $l_green 0%, $d_green 100%);
+    background: linear-gradient(top, $l_green 0%, $d_green 100%);
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    top: 1px;
+    left: 1px;
+
+    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  label:hover::after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+    filter: alpha(opacity=30);
+    opacity: 0.3;
+  }
+
+  input[type=radio]:checked + label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+}
+
+
+
+
+
+/*
+*
+--------------------  CUSTOM CHECKBOX INPUT
+%div.checkbox
+  %input#tos-agreement{name: 'tos_agreement', value: 'Iagree', type: 'checkbox'}
+  %label{for: 'tos-agreement'}
+    %p.input
+    %p.text I agree to the
+      %a{data-toggle: 'modal', data-target: '#tos-register-modal'} Terms of Service
+*
+*/
+
+.checkbox {
+  display:inline-block;
+  width: auto;
+  margin: 12px auto 0 auto;
+  position: relative;
+  color:$green;
+  text-align:center;
+
+  label {
+    p{
+      width: auto;
+      &.input{
+        cursor: pointer;
+        position: absolute;
+        width: 17px !important;
+        height: 17px !important;
+        top: 0;
+          left: 0;
+        border-radius: 5px;
+
+        -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+        -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+        box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+        background: #fcfff4;
+
+        background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+
+      }
+      &.input:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 5px;
+        background: transparent;
+        left: 1px;
+        top:3px;
+        border: 3px solid #333;
+        border-top: none;
+        border-right: none;
+
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+      &.text{
+        margin-left:5px;
+        min-width: 250px;
+        width:40%;
+        text-align:left;
+        color: $white;
+        font-size: .8em;
+        font-weight: 300;
+      }
+    }
+  }
+}
+input[type=checkbox]:checked + label p.input:after, input[type=checkbox]:checked + label p.input {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+.checkbox label p.input:hover::after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+    filter: alpha(opacity=30);
+    opacity: 0.5;
+  }
+
+
+
+/*SETTINGS
+================================================*/
+.form
+{
+  padding:10px 20px;
+
+  p{
+    padding:3px 0;
+    margin: 0;
+  }
+  span{
+    label{
+      margin: 10px 0;
+    }
+    input{
+      width: 95%;
+      padding:5px 2.5%;
+      border:1px solid $gray;
+
+    }
+    textarea{
+      width: 95%;
+      padding:5px 2.5%;
+      border:1px solid $gray;
+    }
+
+  }
+  a{
+    &.profile{
+
+    }
+  }
+}
+
+.settings{
+  section{
+    &.col3{
+      width: 32%;
+      float: left;
+      display: inline-block;
+      margin: 5px 0;
+
+      input, textarea{
+        margin: 2px 0 0 0;
+        width: 95%;
+        padding: 5px 2.5%;
+        border:1px solid #eeeeee;
+        resize: none;
+      }
+    }
+  }
+}
+
+/*
+*
+--------------------  CUSTOM FILE INPUT
+
+%p.file
+      %input#file{type: 'file', name: 'name'}
+      %label{for:'name'} Upload your file
+*
+*/
+
+.file {
+  position: relative;
+  margin:10px auto;
+  width:100%;
+
+  label {
+    text-align: center;
+    width:100%;
+    content: 'Choose image';
+    color: $white;
+    display: inline-block;
+    @include btn($yellow,$d_yellow,$white,$l_yellow);
+    // border: 1px solid #999;
+    padding: 10px 20px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    font-size: .9em;
+    font-weight: 600;
+    @include transition(.25s);
+    @include border-radius(4px);
+    @include textShadow3DDarkLight();
+  }
+
+  input {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 0;
+    opacity: 0.01;
+    cursor: pointer;
+  }
+}
+
+.file input:hover + label,
+.file input:focus + label {
+  // @include textShadow3DDark();
+  // text-decoration:underline;
+}
+input#tagsinput_tag{
+  width:100%;
+}

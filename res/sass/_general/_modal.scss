@@ -1,0 +1,178 @@
+@import '../_mixin/_color.scss';
+
+@import '../_mixin/_global.scss';
+@import '../_mixin/_elements.scss';
+
+/* Center Modal
+=====================================================*/
+* { margin: 0; padding: 0; }
+#applicationModalRegion{display:block;margin:0px auto;}
+*:first-child+html #applicationModalRegion {position:relative;}/*ie7*/
+* html #applicationModalRegion{position:relative;}/*ie6*/
+
+.bbm-wrapper{display:table-cell;vertical-align: middle; position: fixed}
+*:first-child+html .bbm-wrapper{position:absolute;top:50%;}/*ie7*/
+* html .bbm-wrapper{position:absolute;top:50%;}/*ie6*/
+
+*:first-child+html .bbm-modal{position:relative;top:-50%;}/*ie7*/
+* html .bbm-modal{position:relative;top:-50%;}/*ie6*/
+
+#applicationModalRegion{height:100%;}
+
+
+
+/*
+====================================================*/
+
+.bbm-modal{
+  padding:0px;
+  font-family: 'Titillium Web', sans-serif, Arial;
+  background: transparent !important;
+  box-shadow:none !important;
+  text-align: center;
+}
+
+
+
+
+/*
+	TYPE
+*/
+
+
+
+/*
+* ----------- Modal
+*/
+.modal-cancel{
+	cursor:pointer;
+}
+
+.row1{
+	label{
+		width: 100%;
+	}
+	input{
+		width: 100%;
+		text-indent: 0px;
+		border:1px solid #eeeeee !important;
+	}
+
+}
+
+
+/*Modal
+=======================================================*/
+
+.modal_header{
+	border: 1px solid #595959;
+	border:1px solid $gray;
+	@include gradient(#CBCBCB, #F7F7F7);
+	@include border-radius(3px);
+	font-size: 0.9em;
+	padding: 5px;
+	text-shadow: 1px 1px 1px #FFF;
+
+	.modal_exit_icon{
+		color: $d_gray;
+		font-size: 0.8em;
+		@include gradient(#F7F7F7, #CBCBCB);
+		border-radius: 10px;
+		box-shadow: 0px 1px 1px #000 inset;
+		cursor: pointer;
+		padding:6px 5px 3px 5px;
+		float: right;
+
+		&:hover{
+			color: $black;
+		}
+	}
+}
+
+.modal_body{
+	border: 1px solid #595959;
+	border:1px solid $gray;
+	@include gradient(#CBCBCB, #F7F7F7);
+	@include border-radius(3px);
+
+	form{
+		padding: 15px;
+	}
+
+	.modal_title{
+		font-size: 0.9em;
+		color: $green;
+		font-weight: 500;
+		border-bottom: 1px solid #F7F7F7;
+		padding: 10px 0;
+	}
+
+	.modal_section{
+		font-size: .9em;
+		&.col1{
+
+			label{
+				width: 100%;
+				margin: 5px 0;
+			}
+			input, textarea{
+				margin: 0px;
+				width: 95%;
+				padding: 5px 2.5%;
+				border:1px solid #eeeeee;
+				resize: none;
+			}
+		}
+
+		&.col2{
+			border:1px solid $green;
+		}
+		&.col3{
+			width: 95%;
+			margin: 5px 0;
+			background:$l_gray;
+			border:1px solid $gray;
+			padding:10px;
+
+			section{
+				&.col3{
+					width: 32%;
+					float: left;
+					display: inline-block;
+					margin: 5px 0;
+
+					input, textarea{
+						margin: 2px 0 0 0;
+						width: 95%;
+						padding: 5px 2.5%;
+						border:1px solid #eeeeee;
+						resize: none;
+					}
+				}
+			}
+		}
+
+		&.location{
+			background:$l_gray;
+			border:1px solid $gray;
+			padding:10px;
+			margin: 10px 0 0 0;
+
+		}
+
+		&.btn_group{
+			padding:2px 0;
+			margin-top: 10px;
+
+			.submit-modal{
+
+			}
+			.cancel-modal{
+
+			}
+		}
+	}
+}
+
+#applicationModalRegion{
+}

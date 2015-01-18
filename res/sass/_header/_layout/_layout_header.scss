@@ -1,0 +1,270 @@
+@import '../../color.scss';
+@import '../../global.scss';
+@import '../../_body/_profile/elements.scss';
+@import url(http://fonts.googleapis.com/css?family=Lato:400,400italic,700,300,300italic);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic);
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web:400,300italic,300,400italic,600,200italic,600italic);
+@import url(http://fonts.googleapis.com/css?family=Pinyon+Script);
+
+/* Global Header Rules
+=======================================*/
+
+.header_wrapper{
+	width:1024px;
+	margin:0 auto;
+}
+.header_logo{
+  //background:url('../img/logo.png');
+  img{
+  	max-width:150px;
+  	}
+  //height:175px;
+  margin: 2% auto 1% auto;
+  max-width:960px;
+}
+.cover_img{
+	height: 325px;
+	width: 100%;
+	overflow: hidden;
+	margin:0 auto;
+	border:2px solid $gray;
+	position: relative;
+	//border-right:3px solid $gray;
+	.cover-img{
+		width: 100%;
+	}
+}
+
+
+.header_event{
+	border: 2px solid #F7F7F7;
+	height: 72px;
+	box-shadow: 0px 0px 5px #000 inset;
+	background-image: url('../img/event-name.png');
+	text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(66, 66, 66, 0.4), 0px 18px 23px rgba(66, 66, 66, 0.4);
+	max-width: 960px;
+	margin:0 auto;
+
+	line-height: 80px;
+	font-size: 40px;
+	text-align: center;
+	color: #B69A8A;
+	font-weight: 600;
+	text-shadow: 0px 2px #310;
+	font-family: 'Great Vibes',cursive;
+
+	.header_logo{
+	  //background:url('../img/logo.png');
+	  max-width: 960px;
+	  margin-left:auto;
+	  margin-right:auto;
+	  border: 1px solid orange;
+
+
+	  img{
+	  	max-width:150px;
+	  	}
+	  //height:175px;
+	  margin-top: 2%;
+	}
+}
+/* Clubhouse
+=======================================*/
+
+.roof{
+	height: 39px;
+	max-width: 970px;
+	padding-top: 230px;
+	background-image: url('../img/clubhouse-title.png');
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin:1% auto 0 auto;
+}
+.sub_roof{
+	max-width: 958px;
+	overflow: hidden;
+	margin:0 auto;
+
+	.clubhouse_name{
+		position:absolute;
+		width:100%;
+		line-height: 1.2em;
+		margin-top:-2.2em;
+		max-width: 960px;
+		text-align:center;
+		text-shadow: 1px 1px 1px #ffffff;
+		text-shadow: 1px 1px 1px rgba(255, 255, 255, .8);
+	}
+}
+
+.pic{
+	.profile_img{
+		width: 180px;
+		height: 180px;
+		position: relative;
+		top: -237px;
+		left: 12px;
+		display: inline-block;
+		margin: 0px 0px -162px;
+		border-radius: 100px;
+		box-shadow: 0px 0px 4px 1px #555;
+		z-index: 4;
+		min-width: 40px;
+	}
+	.overlay{
+		width: 209px;
+		height: 249px;
+		margin-top: -269px;
+		position: relative;
+		background-image: url('../img/clubhouse-tee.png');
+		background-repeat: no-repeat;
+		z-index: 3;
+	}
+}
+.user_info{
+	float:right;
+	position:relative;
+	display:inline-block;
+	vertical-align: middle;
+	width:19%;
+	padding:10px 0;
+	line-height:1.5em;
+	font-weight:300;
+	font-family: 'Titillium Web', sans-serif;
+	img{
+		display: inline-block;
+	}
+
+	a{
+		color: $link;
+		font-size: .9em;
+		text-transform: capitalize;
+
+		&:hover{
+			color: $link_hover;
+		}
+	}
+}
+
+/* Entity ( Courses )
+=======================================*/
+
+.header_entity{
+	max-width: 960px;
+	margin:0 auto;
+	 padding: 20px 0;
+	background:url('../img/assets/header_background.png') no-repeat center top;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  font-size:1.5em;
+  font-weight:600;
+  text-align:center;
+  color: $white;
+  @include textShadow3DDark();
+}
+
+.sub_entity{
+	max-width: 958px;
+	overflow: hidden;
+	margin:0 auto;
+	.date{
+		position: absolute;
+		width: 100%;
+		text-align: center;
+		margin: 30px 20px 0 0;
+		padding-right: 20px;
+
+		.dayRibbon{
+		    width: 94px;
+		    padding: 0px;
+		    margin: 10px auto 15px;
+		    text-align: center;
+		    font-size: 0.9em;
+		}
+		.monthRibbon{
+			width: 80%;
+			margin:0 auto;
+			font-size: 2.2em;
+			font-weight: 400;
+			color: #CD351C;
+			text-align: center;
+			line-height: 1em;
+			text-shadow: 1px 1px 1px #9AEC8F;
+		}
+		.numberRibbon{
+			padding: 0px 4%;
+			line-height: 1em;
+			font-size: 4em;
+			text-align: center;
+		}
+	}
+	.directions{
+		position: absolute;
+		bottom:0px;
+		left: 0px;
+		padding: 10px 10px;
+		background-image: url('../img/event-name.png');
+		background-position: -50px 200px;
+		border: 2px solid #F7F7F7;
+		z-index: 999;
+		box-shadow: 0px 0px 5px #000 inset;
+		text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(66, 66, 66, 0.4), 0px 18px 23px rgba(66, 66, 66, 0.4);
+
+		input{
+			&.submit{
+				padding: 5px 10px;
+				color: $white;
+				@include border_radius(5px);
+				@include gradient($link_hover, $link);
+				@include transition(.25s);
+				text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.4), 0px 18px 23px rgba(0, 0, 0, 0.4);
+				border:0;
+				border: none;
+				border-width: 1px;
+				border-style: solid;
+				-moz-border-top-colors: none;
+				-moz-border-right-colors: none;
+				-moz-border-bottom-colors: none;
+				-moz-border-left-colors: none;
+				border-image: none;
+				border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #B3B3B3;
+			}
+		}
+	}
+	.banner{
+		color: #F7F7F7;
+		height: 216px;
+		width: 94px;
+		float: right;
+
+		z-index: 9999;
+		background-image: url('../img/date-banner.png');
+	}
+}
+
+/* Connect Region
+============================*/
+
+.connect_wrapper{
+	position: absolute;
+	width: 100%;
+	z-index: 9999;
+	margin: 18% auto 0 auto;
+  	max-width:960px;
+  	text-align: right;
+  	padding: 0 30px;
+
+	.connect_btn{
+
+		&.red{
+			padding:10px 20px;
+			@include btn($red, $d_red, $white, $l_red);
+		}
+	}
+}
+.sub_roof .connect_wrapper{
+	margin: 28% auto 0 auto;
+
+		}

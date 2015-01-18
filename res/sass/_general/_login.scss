@@ -1,0 +1,99 @@
+@import '../_mixin/_color.scss';
+
+@import '../_mixin/_elements.scss';
+@import '../_mixin/_global.scss';
+.login_form_wrapper{
+
+	box-shadow: 0 0px 6px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.9);
+	@include gradient(#F7F7F7, #CBCBCB);
+	@include border-radius(3px);
+	//font-size: 0.9em;
+	padding: 15px;
+	text-shadow: 1px 1px 1px #FFF;
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: left;
+
+	.modal-cancel {
+		display: inline-block;
+		@include transition(.25s);
+
+		&.exit{
+			font-weight: 500;
+			width: 2%;
+		}
+		&:hover{
+			color: $d_gray;
+		}
+	}
+	.partition{
+		width: 48%;
+		vertical-align: top;
+
+		h2{
+			font-size: 1.3em;
+		}
+		.subsection{
+			form{
+				margin: 10px 0;
+
+				input{
+					width: 99%;
+				}
+			}
+			label, input, p{
+				margin-bottom: 10px;
+
+				&.button{
+					width: 100%;
+					margin: 5px 0;
+					cursor: pointer;
+					//%a.login_btn.modal-submit Login
+
+					&.login_btn{
+						padding:10px 20px;
+						@include btn($green, $d_green, $white, $l_green);
+						text-align: center;
+					}
+					&.register_btn{
+						padding:10px 20px;
+						@include btn($yellow, $d_yellow, $white, $l_yellow);
+						width: 90%;
+					}
+				}
+			}
+
+			a{
+				&.forgot_password, &.register, &.member{
+					color:$link;
+					font-size: .8em;
+					text-transform: capitalize;
+					font-weight: 400;
+
+					&:hover{
+						color:$link_hover;
+					}
+				}
+				&.login_btn{
+					padding:10px 20px;
+					@include btn($green, $d_green, $white, $l_green);
+					width: 100%;
+				}
+				&.register_btn{
+					padding:10px 20px;
+					@include btn($yellow, $d_yellow, $white, $l_yellow);
+					width: 100%;
+					//%a.register_btn.modal-submit Create Account
+				}
+			}
+			p.button{
+				margin: 10px auto;
+				padding:10px 0;
+			}
+		}
+
+		.form_logo{
+			padding-top: 30px;
+		}
+	}
+}
