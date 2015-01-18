@@ -12,10 +12,26 @@
     "root": "./bin/index.html",
     "url": "http://localhost:8000"
   },
-  "css": {
-    "in": "./res/style/**/*",
+  "style": {
+    "in": [
+      "./res/bower_components/.connectx-temp/libs.css",
+      "./res/bower_components/.connectx-temp/master.css"
+    ],
     "out": "final.css",
     "dir": "./bin"
+  },
+  "csslibs": {
+    "in": [
+      "./res/bower_components/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    "out": "libs.css",
+    "dir": "./res/bower_components/.connectx-temp"
+  },
+  "sass": {
+    "main": "./res/style/master.scss",
+    "in": "./res/style/",
+    "out": "master.css",
+    "dir": "./res/bower_components/.connectx-temp"
   },
   "copy": {
     "in": ["./res/fonts/"],

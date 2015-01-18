@@ -1,6 +1,6 @@
 bin/*
 !bin/fonts/
 !bin/index.html
-!bin/final.css
+!bin/_final.css
 .DS_Store
 res/bower_components/

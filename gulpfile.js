@@ -7,11 +7,12 @@ var gulp = require('./build')([
   'express',
   'clean',
   'reload',
-  'style'
+  'style',
+  'sass',
+  'csslibs'
 ]);
 
 var run = require('run-sequence');
-
 
 gulp.task('build', function(cb) {
   run('clean', 'assets', 'browserify', cb);
