@@ -1,24 +1,26 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var PostStore, expect;
+require('./stores/commentStore')();
 
-expect = require('chai').expect;
+require('./stores/connectionStore')();
 
-PostStore = require('connectx/stores').PostStore;
+require('./stores/courseStore')();
 
-describe('test setup', function() {
-  return it('should work', function() {
-    return expect(true).to.be["true"];
-  });
-});
+require('./stores/currentUserStore')();
 
-describe('PostStore functionality', function() {
-  return it('should exist', function() {
-    return expect(PostStore).to.exist;
-  });
-});
+require('./stores/eventStore')();
+
+require('./stores/fileStore')();
+
+require('./stores/groupStore')();
+
+require('./stores/notificationStore')();
+
+require('./stores/postStore')();
+
+require('./stores/userStore')();
 
 
-},{"chai":7,"connectx/stores":50}],2:[function(require,module,exports){
+},{"./stores/commentStore":59,"./stores/connectionStore":60,"./stores/courseStore":61,"./stores/currentUserStore":62,"./stores/eventStore":63,"./stores/fileStore":64,"./stores/groupStore":65,"./stores/notificationStore":66,"./stores/postStore":67,"./stores/userStore":68}],2:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -7018,8 +7020,8 @@ var Cache, _;
 _ = require('lodash');
 
 Cache = (function() {
-  function Cache(_at_data) {
-    this.data = _at_data != null ? _at_data : {};
+  function Cache(data) {
+    this.data = data != null ? data : {};
     this.mem = _.clone(this.data);
   }
 
@@ -7109,8 +7111,8 @@ module.exports = {
 
 },{}],43:[function(require,module,exports){
 var ConnectxDispatcher, Dispatcher, SourceType,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Dispatcher = require('flux').Dispatcher;
 
@@ -7148,8 +7150,8 @@ ConnectxDispatcher = (function(_super) {
 
 },{"./config":42,"flux":54}],44:[function(require,module,exports){
 var BaseStore, Cache, ChangeEvent, EventEmitter, changeQueued, guid, publishChange, stores, _,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 EventEmitter = require('events').EventEmitter;
 
@@ -7173,8 +7175,8 @@ publishChange = function() {
 BaseStore = (function(_super) {
   __extends(BaseStore, _super);
 
-  function BaseStore(_at_dispatcher) {
-    this.dispatcher = _at_dispatcher;
+  function BaseStore(dispatcher) {
+    this.dispatcher = dispatcher;
     this.dispatchToken = this.dispatcher.register((function(_this) {
       return function(payload) {
         return _this.handleDispatch(payload);
@@ -7302,8 +7304,8 @@ module.exports = BaseStore;
 
 },{"connectx/cache":41,"events":6,"guid":57,"lodash":58}],45:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CommentStore, Dispatcher, SourceType, addComments, addCommentsForPosts, getKeyForAction, getKeyForComment, markCommentFailed, markPending, migrateCommentToServerId, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -7477,8 +7479,8 @@ module.exports = new CommentStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],46:[function(require,module,exports){
 var ActionType, BaseStore, ConnectionStore, Dispatcher, GroupStore, SourceType, UserStore, etypes, getEntityConnections, getEntityForData, getType, isAdminOf, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7628,8 +7630,8 @@ module.exports = new ConnectionStore(Dispatcher);
 
 },{"./baseStore":44,"./groupStore":49,"./userStore":53,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],47:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CurrentUserStore, Dispatcher, SourceType, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7697,8 +7699,8 @@ module.exports = new CurrentUserStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43}],48:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7755,8 +7757,8 @@ module.exports = new FileStore(Dispatcher);
 
 },{"./baseStore":44,"./postStore":52,"connectx/config":42,"connectx/dispatcher":43}],49:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, GroupStore, SourceType, recordGroup, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 _ = require('lodash');
 
@@ -7848,8 +7850,8 @@ module.exports = {
 
 },{"./commentStore":45,"./connectionStore":46,"./currentUserStore":47,"./fileStore":48,"./groupStore":49,"./notificationStore":51,"./postStore":52,"./userStore":53}],51:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, NotificationStore, SourceType, addNotification, getKey, n, removeNotification, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7862,7 +7864,7 @@ BaseStore = require('./baseStore');
 n = {};
 
 getKey = function(n) {
-  return n.message + "_" + n.detail + "_" + n.status;
+  return "" + n.message + "_" + n.detail + "_" + n.status;
 };
 
 removeNotification = function(data) {
@@ -7921,8 +7923,8 @@ module.exports = new NotificationStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],52:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, PostStore, SourceType, addPosts, getKeyForAction, getKeyForPost, markPending, markPostFailed, migratePostToServerId, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -8112,8 +8114,8 @@ module.exports = new PostStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],53:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, SourceType, UserStore, recordEntity, _, _ref,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 _ = require('lodash');
 
@@ -15377,4 +15379,92 @@ module.exports = invariant;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1]);
+},{}],59:[function(require,module,exports){
+var CommentStore, expect;
+
+expect = require('chai').expect;
+
+CommentStore = require('connectx/stores').CommentStore;
+
+module.exports = function() {
+  return describe('Comment Store tests', function() {
+    return it('should exist', function() {
+      return expect(CommentStore).to.exist;
+    });
+  });
+};
+
+
+},{"chai":7,"connectx/stores":50}],60:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],61:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],62:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],63:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],64:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],65:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],66:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],67:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}],68:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":7}]},{},[1]);
