@@ -1,26 +1,87 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-require('./stores/commentStore')();
+// modules are defined as an array
+// [ module function, map of requireuires ]
+//
+// map of requireuires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the requireuire for previous bundles
 
-require('./stores/connectionStore')();
+(function outer (modules, cache, entry) {
+    // Save the require from previous bundle to this closure if any
+    var previousRequire = typeof require == "function" && require;
 
-require('./stores/courseStore')();
+    function findProxyquireifyName() {
+        var deps = Object.keys(modules)
+            .map(function (k) { return modules[k][1]; });
 
-require('./stores/currentUserStore')();
+        for (var i = 0; i < deps.length; i++) {
+            var pq = deps[i]['proxyquireify'];
+            if (pq) return pq;
+        }
+    }
 
-require('./stores/eventStore')();
+    var proxyquireifyName = findProxyquireifyName();
 
-require('./stores/fileStore')();
+    function newRequire(name, jumped){
+        // Find the proxyquireify module, if present
+        var pqify = (proxyquireifyName != null) && cache[proxyquireifyName];
 
-require('./stores/groupStore')();
+        // Proxyquireify provides a separate cache that is used when inside
+        // a proxyquire call, and is set to null outside a proxyquire call.
+        // This allows the regular caching semantics to work correctly both
+        // inside and outside proxyquire calls while keeping the cached
+        // modules isolated.
+        // When switching from one proxyquire call to another, it clears
+        // the cache to prevent contamination between different sets
+        // of stubs.
+        var currentCache = (pqify && pqify.exports._cache) || cache;
 
-require('./stores/notificationStore')();
+        if(!currentCache[name]) {
+            if(!modules[name]) {
+                // if we cannot find the the module within our internal map or
+                // cache jump to the current global require ie. the last bundle
+                // that was added to the page.
+                var currentRequire = typeof require == "function" && require;
+                if (!jumped && currentRequire) return currentRequire(name, true);
 
-require('./stores/postStore')();
+                // If there are other bundles on this page the require from the
+                // previous one is saved to 'previousRequire'. Repeat this as
+                // many times as there are bundles until the module is found or
+                // we exhaust the require chain.
+                if (previousRequire) return previousRequire(name, true);
+                var err = new Error('Cannot find module \'' + name + '\'');
+                err.code = 'MODULE_NOT_FOUND';
+                throw err;
+            }
+            var m = currentCache[name] = {exports:{}};
 
-require('./stores/userStore')();
+            // The normal browserify require function
+            var req = function(x){
+                var id = modules[name][1][x];
+                return newRequire(id ? id : x);
+            };
 
+            // The require function substituted for proxyquireify
+            var moduleRequire = function(x){
+                var pqify = (proxyquireifyName != null) && cache[proxyquireifyName];
+                // Only try to use the proxyquireify version if it has been `require`d
+                if (pqify && pqify.exports._proxy) {
+                    return pqify.exports._proxy(req, x);
+                } else {
+                    return req(x);
+                }
+            };
 
-},{"./stores/commentStore":59,"./stores/connectionStore":60,"./stores/courseStore":61,"./stores/currentUserStore":62,"./stores/eventStore":63,"./stores/fileStore":64,"./stores/groupStore":65,"./stores/notificationStore":66,"./stores/postStore":67,"./stores/userStore":68}],2:[function(require,module,exports){
+            modules[name][0].call(m.exports,moduleRequire,m,m.exports,outer,modules,currentCache,entry);
+        }
+        return currentCache[name].exports;
+    }
+    for(var i=0;i<entry.length;i++) newRequire(entry[i]);
+
+    // Override the current require with this new one
+    return newRequire;
+})
+({1:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1338,7 +1399,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":3,"ieee754":4,"is-array":5}],3:[function(require,module,exports){
+},{"base64-js":2,"ieee754":3,"is-array":4}],2:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -1464,7 +1525,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -1550,7 +1611,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 /**
  * isArray
@@ -1585,7 +1646,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1888,10 +1949,10 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = require('./lib/chai');
 
-},{"./lib/chai":8}],8:[function(require,module,exports){
+},{"./lib/chai":7}],7:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -1986,7 +2047,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion":9,"./chai/config":10,"./chai/core/assertions":11,"./chai/interface/assert":12,"./chai/interface/expect":13,"./chai/interface/should":14,"./chai/utils":27,"assertion-error":36}],9:[function(require,module,exports){
+},{"./chai/assertion":8,"./chai/config":9,"./chai/core/assertions":10,"./chai/interface/assert":11,"./chai/interface/expect":12,"./chai/interface/should":13,"./chai/utils":26,"assertion-error":35}],8:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -2118,7 +2179,7 @@ module.exports = function (_chai, util) {
   });
 };
 
-},{"./config":10}],10:[function(require,module,exports){
+},{"./config":9}],9:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -2170,7 +2231,7 @@ module.exports = {
 
 };
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -3706,7 +3767,7 @@ module.exports = function (chai, _) {
 
 };
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4945,7 +5006,7 @@ module.exports = function (chai, util) {
   ('Throw', 'throws');
 };
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4980,7 +5041,7 @@ module.exports = function (chai, util) {
   };
 };
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5082,7 +5143,7 @@ module.exports = function (chai, util) {
   chai.Should = loadShould;
 };
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * Chai - addChainingMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5195,7 +5256,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   });
 };
 
-},{"../config":10,"./flag":18,"./transferFlags":34}],16:[function(require,module,exports){
+},{"../config":9,"./flag":17,"./transferFlags":33}],15:[function(require,module,exports){
 /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5240,7 +5301,7 @@ module.exports = function (ctx, name, method) {
   };
 };
 
-},{"../config":10,"./flag":18}],17:[function(require,module,exports){
+},{"../config":9,"./flag":17}],16:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5282,7 +5343,7 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5316,7 +5377,7 @@ module.exports = function (obj, key, value) {
   }
 };
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*!
  * Chai - getActual utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5336,7 +5397,7 @@ module.exports = function (obj, args) {
   return args.length > 4 ? args[4] : obj._obj;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*!
  * Chai - getEnumerableProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5363,7 +5424,7 @@ module.exports = function getEnumerableProperties(object) {
   return result;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
  * Chai - message composition utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5415,7 +5476,7 @@ module.exports = function (obj, args) {
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
-},{"./flag":18,"./getActual":19,"./inspect":28,"./objDisplay":29}],22:[function(require,module,exports){
+},{"./flag":17,"./getActual":18,"./inspect":27,"./objDisplay":28}],21:[function(require,module,exports){
 /*!
  * Chai - getName utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5437,7 +5498,7 @@ module.exports = function (func) {
   return match && match[1] ? match[1] : "";
 };
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*!
  * Chai - getPathInfo utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5548,7 +5609,7 @@ function _getPathValue (parsed, obj, index) {
   return res;
 }
 
-},{"./hasProperty":26}],24:[function(require,module,exports){
+},{"./hasProperty":25}],23:[function(require,module,exports){
 /*!
  * Chai - getPathValue utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5592,7 +5653,7 @@ module.exports = function(path, obj) {
   return info.value;
 }; 
 
-},{"./getPathInfo":23}],25:[function(require,module,exports){
+},{"./getPathInfo":22}],24:[function(require,module,exports){
 /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5629,7 +5690,7 @@ module.exports = function getProperties(object) {
   return result;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*!
  * Chai - hasProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5694,7 +5755,7 @@ module.exports = function hasProperty(name, obj) {
   return name in obj;
 };
 
-},{"./type":35}],27:[function(require,module,exports){
+},{"./type":34}],26:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -5822,7 +5883,7 @@ exports.addChainableMethod = require('./addChainableMethod');
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
 
-},{"./addChainableMethod":15,"./addMethod":16,"./addProperty":17,"./flag":18,"./getActual":19,"./getMessage":21,"./getName":22,"./getPathInfo":23,"./getPathValue":24,"./hasProperty":26,"./inspect":28,"./objDisplay":29,"./overwriteChainableMethod":30,"./overwriteMethod":31,"./overwriteProperty":32,"./test":33,"./transferFlags":34,"./type":35,"deep-eql":37}],28:[function(require,module,exports){
+},{"./addChainableMethod":14,"./addMethod":15,"./addProperty":16,"./flag":17,"./getActual":18,"./getMessage":20,"./getName":21,"./getPathInfo":22,"./getPathValue":23,"./hasProperty":25,"./inspect":27,"./objDisplay":28,"./overwriteChainableMethod":29,"./overwriteMethod":30,"./overwriteProperty":31,"./test":32,"./transferFlags":33,"./type":34,"deep-eql":36}],27:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -6157,7 +6218,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-},{"./getEnumerableProperties":20,"./getName":22,"./getProperties":25}],29:[function(require,module,exports){
+},{"./getEnumerableProperties":19,"./getName":21,"./getProperties":24}],28:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6208,7 +6269,7 @@ module.exports = function (obj) {
   }
 };
 
-},{"../config":10,"./inspect":28}],30:[function(require,module,exports){
+},{"../config":9,"./inspect":27}],29:[function(require,module,exports){
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6263,7 +6324,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   };
 };
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6316,7 +6377,7 @@ module.exports = function (ctx, name, method) {
   }
 };
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6372,7 +6433,7 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6400,7 +6461,7 @@ module.exports = function (obj, args) {
   return negate ? !expr : expr;
 };
 
-},{"./flag":18}],34:[function(require,module,exports){
+},{"./flag":17}],33:[function(require,module,exports){
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6446,7 +6507,7 @@ module.exports = function (assertion, object, includeAll) {
   }
 };
 
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*!
  * Chai - type utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6493,7 +6554,7 @@ module.exports = function (obj) {
   return typeof obj;
 };
 
-},{}],36:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -6605,10 +6666,10 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = require('./lib/eql');
 
-},{"./lib/eql":38}],38:[function(require,module,exports){
+},{"./lib/eql":37}],37:[function(require,module,exports){
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -6867,10 +6928,10 @@ function objectEqual(a, b, m) {
   return true;
 }
 
-},{"buffer":2,"type-detect":39}],39:[function(require,module,exports){
+},{"buffer":1,"type-detect":38}],38:[function(require,module,exports){
 module.exports = require('./lib/type');
 
-},{"./lib/type":40}],40:[function(require,module,exports){
+},{"./lib/type":39}],39:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -7014,7 +7075,7 @@ Library.prototype.test = function (obj, type) {
   }
 };
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var Cache, _;
 
 _ = require('lodash');
@@ -7066,7 +7127,7 @@ Cache = (function() {
 module.exports = Cache;
 
 
-},{"lodash":58}],42:[function(require,module,exports){
+},{"lodash":57}],41:[function(require,module,exports){
 var env;
 
 env = {
@@ -7109,7 +7170,7 @@ module.exports = {
 };
 
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var ConnectxDispatcher, Dispatcher, SourceType,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7148,7 +7209,7 @@ ConnectxDispatcher = (function(_super) {
 })(Dispatcher);
 
 
-},{"./config":42,"flux":54}],44:[function(require,module,exports){
+},{"./config":41,"flux":53}],43:[function(require,module,exports){
 var BaseStore, Cache, ChangeEvent, EventEmitter, changeQueued, guid, publishChange, stores, _,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7302,7 +7363,7 @@ BaseStore = (function(_super) {
 module.exports = BaseStore;
 
 
-},{"connectx/cache":41,"events":6,"guid":57,"lodash":58}],45:[function(require,module,exports){
+},{"connectx/cache":40,"events":5,"guid":56,"lodash":57}],44:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CommentStore, Dispatcher, SourceType, addComments, addCommentsForPosts, getKeyForAction, getKeyForComment, markCommentFailed, markPending, migrateCommentToServerId, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7477,7 +7538,7 @@ CommentStore = (function(_super) {
 module.exports = new CommentStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],46:[function(require,module,exports){
+},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],45:[function(require,module,exports){
 var ActionType, BaseStore, ConnectionStore, Dispatcher, GroupStore, SourceType, UserStore, etypes, getEntityConnections, getEntityForData, getType, isAdminOf, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7628,7 +7689,7 @@ ConnectionStore = (function(_super) {
 module.exports = new ConnectionStore(Dispatcher);
 
 
-},{"./baseStore":44,"./groupStore":49,"./userStore":53,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],47:[function(require,module,exports){
+},{"./baseStore":43,"./groupStore":48,"./userStore":52,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],46:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CurrentUserStore, Dispatcher, SourceType, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7697,7 +7758,7 @@ CurrentUserStore = (function(_super) {
 module.exports = new CurrentUserStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43}],48:[function(require,module,exports){
+},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42}],47:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7755,7 +7816,7 @@ FileStore = (function(_super) {
 module.exports = new FileStore(Dispatcher);
 
 
-},{"./baseStore":44,"./postStore":52,"connectx/config":42,"connectx/dispatcher":43}],49:[function(require,module,exports){
+},{"./baseStore":43,"./postStore":51,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, GroupStore, SourceType, recordGroup, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7835,7 +7896,7 @@ GroupStore = (function(_super) {
 window.GroupStore = module.exports = new GroupStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"events":6,"lodash":58}],50:[function(require,module,exports){
+},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":57}],49:[function(require,module,exports){
 module.exports = {
   CurrentUserStore: require('./currentUserStore'),
   NotificationStore: require('./notificationStore'),
@@ -7848,7 +7909,7 @@ module.exports = {
 };
 
 
-},{"./commentStore":45,"./connectionStore":46,"./currentUserStore":47,"./fileStore":48,"./groupStore":49,"./notificationStore":51,"./postStore":52,"./userStore":53}],51:[function(require,module,exports){
+},{"./commentStore":44,"./connectionStore":45,"./currentUserStore":46,"./fileStore":47,"./groupStore":48,"./notificationStore":50,"./postStore":51,"./userStore":52}],50:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, NotificationStore, SourceType, addNotification, getKey, n, removeNotification, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7921,7 +7982,7 @@ NotificationStore = (function(_super) {
 module.exports = new NotificationStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],52:[function(require,module,exports){
+},{"./baseStore":43,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],51:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, PostStore, SourceType, addPosts, getKeyForAction, getKeyForPost, markPending, markPostFailed, migratePostToServerId, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8112,7 +8173,7 @@ PostStore = (function(_super) {
 module.exports = new PostStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"lodash":58}],53:[function(require,module,exports){
+},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],52:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, SourceType, UserStore, recordEntity, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8206,7 +8267,7 @@ UserStore = (function(_super) {
 module.exports = new UserStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":41,"connectx/config":42,"connectx/dispatcher":43,"events":6,"lodash":58}],54:[function(require,module,exports){
+},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":57}],53:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8218,7 +8279,7 @@ module.exports = new UserStore(Dispatcher);
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":55}],55:[function(require,module,exports){
+},{"./lib/Dispatcher":54}],54:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8470,7 +8531,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":56}],56:[function(require,module,exports){
+},{"./invariant":55}],55:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8525,7 +8586,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function () {
   var validator = new RegExp("^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$", "i");
 
@@ -8590,7 +8651,7 @@ module.exports = invariant;
   }
 })();
 
-},{}],58:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -15379,8 +15440,139 @@ module.exports = invariant;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],58:[function(require,module,exports){
+'use strict';
+
+function ProxyquireifyError(msg) {
+  this.name = 'ProxyquireifyError';
+  Error.captureStackTrace(this, ProxyquireifyError);
+  this.message = msg || 'An error occurred inside proxyquireify.';
+}
+
+function validateArguments(request, stubs) {
+  var msg = (function getMessage() {
+    if (!request)
+      return 'Missing argument: "request". Need it to resolve desired module.';
+
+    if (!stubs)
+      return 'Missing argument: "stubs". If no stubbing is needed, use regular require instead.';
+
+    if (typeof request != 'string')
+      return 'Invalid argument: "request". Needs to be a requirable string that is the module to load.';
+
+    if (typeof stubs != 'object')
+      return 'Invalid argument: "stubs". Needs to be an object containing overrides e.g., {"path": { extname: function () { ... } } }.';
+  })();
+
+  if (msg) throw new ProxyquireifyError(msg);
+}
+
+var stubs;
+
+function stub(stubs_) {
+  stubs = stubs_;
+  // This cache is used by the prelude as an alternative to the regular cache.
+  // It is not read or written here, except to set it to an empty object when
+  // adding stubs and to reset it to null when clearing stubs.
+  module.exports._cache = {};
+}
+
+function reset() {
+  stubs = undefined;
+  module.exports._cache = null;
+}
+
+function fillMissingKeys(mdl, original) {
+  Object.keys(original).forEach(function (key) {
+    if (!mdl[key]) mdl[key] = original[key];
+  });
+  if (typeof mdl === 'function' && typeof original === 'function') {
+      Object.keys(original.prototype).forEach(function (key) {
+          if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
+      });
+  }
+
+  return mdl;
+}
+
+var proxyquire = module.exports = function (require_) {
+  if (typeof require_ != 'function')
+    throw new ProxyquireifyError(
+        'It seems like you didn\'t initialize proxyquireify with the require in your test.\n'
+      + 'Make sure to correct this, i.e.: "var proxyquire = require(\'proxyquireify\')(require);"'
+    );
+
+  reset();
+
+  return function(request, stubs) {
+
+    validateArguments(request, stubs);
+
+    // set the stubs and require dependency
+    // when stub require is invoked by the module under test it will find the stubs here
+    stub(stubs);
+    var dep = require_(request);
+    reset();
+
+    return dep;
+  };
+};
+
+// Start with the default cache
+proxyquire._cache = null;
+
+proxyquire._proxy = function (require_, request) {
+  function original() {
+    return require_(request);
+  }
+
+  if (!stubs) return original();
+
+  var stub = stubs[request];
+
+  if (!stub) return original();
+
+  var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
+  var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
+  return noCallThru ? stub : fillMissingKeys(stub, original());
+};
+
+if (require.cache) {
+  // only used during build, so prevent browserify from including it
+  var replacePreludePath = './lib/replace-prelude';
+  var replacePrelude = require(replacePreludePath);
+  proxyquire.browserify = replacePrelude.browserify;
+  proxyquire.plugin = replacePrelude.plugin;
+}
+
 },{}],59:[function(require,module,exports){
-var CommentStore, expect;
+require('./stores/commentStore')();
+
+require('./stores/connectionStore')();
+
+require('./stores/courseStore')();
+
+require('./stores/currentUserStore')();
+
+require('./stores/eventStore')();
+
+require('./stores/fileStore')();
+
+require('./stores/groupStore')();
+
+require('./stores/notificationStore')();
+
+require('./stores/postStore')();
+
+require('./stores/userStore')();
+
+
+},{"./stores/commentStore":60,"./stores/connectionStore":61,"./stores/courseStore":62,"./stores/currentUserStore":63,"./stores/eventStore":64,"./stores/fileStore":65,"./stores/groupStore":66,"./stores/notificationStore":67,"./stores/postStore":68,"./stores/userStore":69}],60:[function(require,module,exports){
+var CommentStore, expect, proxy;
+
+proxy = require('proxyquireify')(require);
+
+proxy('./baseStore', function() {});
 
 expect = require('chai').expect;
 
@@ -15395,7 +15587,7 @@ module.exports = function() {
 };
 
 
-},{"chai":7,"connectx/stores":50}],60:[function(require,module,exports){
+},{"chai":6,"connectx/stores":49,"proxyquireify":58}],61:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15403,7 +15595,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],61:[function(require,module,exports){
+},{"chai":6}],62:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15411,7 +15603,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],62:[function(require,module,exports){
+},{"chai":6}],63:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15419,7 +15611,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],63:[function(require,module,exports){
+},{"chai":6}],64:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15427,7 +15619,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],64:[function(require,module,exports){
+},{"chai":6}],65:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15435,7 +15627,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],65:[function(require,module,exports){
+},{"chai":6}],66:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15443,7 +15635,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],66:[function(require,module,exports){
+},{"chai":6}],67:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15451,7 +15643,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],67:[function(require,module,exports){
+},{"chai":6}],68:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15459,7 +15651,7 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}],68:[function(require,module,exports){
+},{"chai":6}],69:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15467,4 +15659,4 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":7}]},{},[1]);
+},{"chai":6}]},{},[59]);

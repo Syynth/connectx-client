@@ -1,3 +1,5 @@
+# proxy = require('proxyquireify')(require)
+
 {expect} = require 'chai'
 
 {CommentStore} = require 'connectx/stores'
