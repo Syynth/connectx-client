@@ -1,14 +1,12 @@
 
-{expect} = require 'chai'
-
-{PostStore} = require 'connectx/stores'
-
-describe 'test setup', ->
-
-  it 'should work', ->
-    expect(true).to.be.true
-
-describe 'PostStore functionality', ->
-
-  it 'should exist', ->
-    expect(PostStore).to.exist
+# Data Stores tests
+require('stores/commentStore')()
+require('stores/connectionStore')()
+require('stores/courseStore')()
+require('stores/currentUserStore')()
+require('stores/eventStore')()
+require('stores/fileStore')()
+require('stores/groupStore')()
+require('stores/notificationStore')()
+require('stores/postStore')()
+require('stores/userStore')()
