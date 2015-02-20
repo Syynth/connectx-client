@@ -9,13 +9,19 @@ var gulp = require('./build')([
   'reload',
   'sass',
   'csslibs',
-  'style'
+  'style',
+  'compile-tests',
+  'run-tests'
 ]);
 
 var run = require('run-sequence');
 
 gulp.task('build', function(cb) {
   run('clean', 'assets', 'browserify', cb);
+});
+
+gulp.task('test', function(cb) {
+  run('compile-tests', 'run-tests', cb);
 });
 
 gulp.task('serve', function(cb) {

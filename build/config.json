@@ -4,6 +4,11 @@
     "out": "final.js",
     "dir": "./bin"
   },
+  "test": {
+    "in": "./test/index.coffee",
+    "out": "test.js",
+    "dir": "./test/bin"
+  },
   "img": {
     "in": "./res/img/**/*",
     "out": "./bin/img"
