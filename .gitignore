@@ -6,3 +6,4 @@ bin/*
 res/bower_components/
 **/.sass-cache/
 test/bin/test.js
+.idea/
