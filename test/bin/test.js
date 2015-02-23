@@ -7127,7 +7127,7 @@ Cache = (function() {
 module.exports = Cache;
 
 
-},{"lodash":57}],41:[function(require,module,exports){
+},{"lodash":58}],41:[function(require,module,exports){
 var env;
 
 env = {
@@ -7160,6 +7160,7 @@ module.exports = {
     UserRegister: 'USER_REGISTER',
     UserLogout: 'USER_LOGOUT',
     UserUpdate: 'USER_UPDATE',
+    UserUpdateClient: 'USER_UPDATE_CLIENT',
     AddNotification: 'NOTIFICATION_ADD',
     RemoveNotification: 'NOTIFICATION_REMOVE'
   },
@@ -7219,8 +7220,54 @@ ConnectxDispatcher = (function(_super) {
 module.exports = new ConnectxDispatcher;
 
 
-},{"./config":41,"flux":53}],43:[function(require,module,exports){
-var BaseStore, Cache, ChangeEvent, EventEmitter, changeQueued, guid, publishChange, stores, _,
+},{"./config":41,"flux":54}],43:[function(require,module,exports){
+var MemoryCache, _;
+
+_ = require('lodash');
+
+MemoryCache = (function() {
+  function MemoryCache(data) {
+    this.data = data != null ? data : {};
+  }
+
+  MemoryCache.prototype.query = function(predicate) {
+    var key, val, _ref, _results;
+    _ref = this.data;
+    _results = [];
+    for (key in _ref) {
+      val = _ref[key];
+      if (predicate(val)) {
+        _results.push(this.get(key));
+      }
+    }
+    return _results;
+  };
+
+  MemoryCache.prototype.get = function(key) {
+    return this.data[key];
+  };
+
+  MemoryCache.prototype.set = function(key, val) {
+    return this.data[key] = val;
+  };
+
+  MemoryCache.prototype.unset = function(key, val) {
+    return delete this.data[key];
+  };
+
+  MemoryCache.prototype.clear = function() {
+    return this.data = {};
+  };
+
+  return MemoryCache;
+
+})();
+
+module.exports = MemoryCache;
+
+
+},{"lodash":58}],44:[function(require,module,exports){
+var BaseStore, Cache, ChangeEvent, EventEmitter, MemCache, changeQueued, guid, publishChange, stores, _,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -7233,6 +7280,8 @@ guid = (require('guid')).create().value;
 ChangeEvent = 'change';
 
 Cache = require('connectx/cache');
+
+MemCache = require('connectx/memoryCache');
 
 stores = {};
 
@@ -7255,6 +7304,7 @@ BaseStore = (function(_super) {
     })(this));
     stores[this.storeKey] = this;
     this.cache = new Cache(this.read('cache'));
+    this.queue = new MemCache;
   }
 
   BaseStore.prototype.dependents = [];
@@ -7266,6 +7316,7 @@ BaseStore = (function(_super) {
 
   BaseStore.prototype.wipeCache = function() {
     this.cache = new Cache;
+    this.queue = new MemCache;
     return this.write('cache', this.cache.data);
   };
 
@@ -7275,6 +7326,11 @@ BaseStore = (function(_super) {
   };
 
   BaseStore.prototype.get = function(key) {
+    var res;
+    res = this.queue.get(key);
+    if (res) {
+      return res;
+    }
     return this.cache.get(key);
   };
 
@@ -7377,7 +7433,7 @@ BaseStore = (function(_super) {
 module.exports = BaseStore;
 
 
-},{"connectx/cache":40,"events":5,"guid":56,"lodash":57}],44:[function(require,module,exports){
+},{"connectx/cache":40,"connectx/memoryCache":43,"events":5,"guid":57,"lodash":58}],45:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CommentStore, Dispatcher, SourceType, addComments, addCommentsForPosts, getKeyForAction, getKeyForComment, markCommentFailed, markPending, migrateCommentToServerId, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7552,7 +7608,7 @@ CommentStore = (function(_super) {
 module.exports = new CommentStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],45:[function(require,module,exports){
+},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],46:[function(require,module,exports){
 var ActionType, BaseStore, ConnectionStore, Dispatcher, GroupStore, SourceType, UserStore, etypes, getEntityConnections, getEntityForData, getType, isAdminOf, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7703,7 +7759,7 @@ ConnectionStore = (function(_super) {
 module.exports = new ConnectionStore(Dispatcher);
 
 
-},{"./baseStore":43,"./groupStore":48,"./userStore":52,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],46:[function(require,module,exports){
+},{"./baseStore":44,"./groupStore":49,"./userStore":53,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],47:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CurrentUserStore, Dispatcher, SourceType, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7730,10 +7786,20 @@ CurrentUserStore = (function(_super) {
   };
 
   CurrentUserStore.prototype.getCurrentUser = function() {
+    var res;
+    res = this.queue.get('currentUser');
+    if (res) {
+      return res;
+    }
     return this.get('currentUser');
   };
 
   CurrentUserStore.prototype.getCurrentActor = function() {
+    var res;
+    res = this.queue.get('currentActor');
+    if (res) {
+      return res;
+    }
     return this.get('currentActor');
   };
 
@@ -7756,8 +7822,15 @@ CurrentUserStore = (function(_super) {
         return this.set('currentActor', action.entity);
       }
     }, {
+      action: ActionType.UserUpdateClient,
+      fn: function(action) {
+        this.queue.set('currentUser', action.user);
+        return this.emitChange();
+      }
+    }, {
       action: ActionType.UserUpdate,
       fn: function(action) {
+        this.queue.unset('currentUser');
         return this.set('currentUser', action.user);
       }
     }, {
@@ -7773,7 +7846,7 @@ CurrentUserStore = (function(_super) {
 module.exports = new CurrentUserStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42}],47:[function(require,module,exports){
+},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7831,7 +7904,7 @@ FileStore = (function(_super) {
 module.exports = new FileStore(Dispatcher);
 
 
-},{"./baseStore":43,"./postStore":51,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
+},{"./baseStore":44,"./postStore":52,"connectx/config":41,"connectx/dispatcher":42}],49:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, GroupStore, SourceType, recordGroup, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7911,7 +7984,7 @@ GroupStore = (function(_super) {
 window.GroupStore = module.exports = new GroupStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":57}],49:[function(require,module,exports){
+},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":58}],50:[function(require,module,exports){
 module.exports = {
   CurrentUserStore: require('./currentUserStore'),
   NotificationStore: require('./notificationStore'),
@@ -7924,7 +7997,7 @@ module.exports = {
 };
 
 
-},{"./commentStore":44,"./connectionStore":45,"./currentUserStore":46,"./fileStore":47,"./groupStore":48,"./notificationStore":50,"./postStore":51,"./userStore":52}],50:[function(require,module,exports){
+},{"./commentStore":45,"./connectionStore":46,"./currentUserStore":47,"./fileStore":48,"./groupStore":49,"./notificationStore":51,"./postStore":52,"./userStore":53}],51:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, NotificationStore, SourceType, addNotification, getKey, n, removeNotification, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7997,7 +8070,7 @@ NotificationStore = (function(_super) {
 module.exports = new NotificationStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],51:[function(require,module,exports){
+},{"./baseStore":44,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],52:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, PostStore, SourceType, addPosts, getKeyForAction, getKeyForPost, markPending, markPostFailed, migratePostToServerId, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8188,7 +8261,7 @@ PostStore = (function(_super) {
 module.exports = new PostStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],52:[function(require,module,exports){
+},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],53:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, SourceType, UserStore, recordEntity, _, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8282,7 +8355,7 @@ UserStore = (function(_super) {
 module.exports = new UserStore(Dispatcher);
 
 
-},{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":57}],53:[function(require,module,exports){
+},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":58}],54:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8294,7 +8367,7 @@ module.exports = new UserStore(Dispatcher);
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":54}],54:[function(require,module,exports){
+},{"./lib/Dispatcher":55}],55:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8546,7 +8619,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":55}],55:[function(require,module,exports){
+},{"./invariant":56}],56:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -8601,7 +8674,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function () {
   var validator = new RegExp("^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$", "i");
 
@@ -8666,7 +8739,7 @@ module.exports = invariant;
   }
 })();
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -15455,7 +15528,7 @@ module.exports = invariant;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 require('./stores/commentStore')();
 
 require('./stores/connectionStore')();
@@ -15477,7 +15550,7 @@ require('./stores/postStore')();
 require('./stores/userStore')();
 
 
-},{"./stores/commentStore":59,"./stores/connectionStore":60,"./stores/courseStore":61,"./stores/currentUserStore":62,"./stores/eventStore":63,"./stores/fileStore":64,"./stores/groupStore":65,"./stores/notificationStore":66,"./stores/postStore":67,"./stores/userStore":68}],59:[function(require,module,exports){
+},{"./stores/commentStore":60,"./stores/connectionStore":61,"./stores/courseStore":62,"./stores/currentUserStore":63,"./stores/eventStore":64,"./stores/fileStore":65,"./stores/groupStore":66,"./stores/notificationStore":67,"./stores/postStore":68,"./stores/userStore":69}],60:[function(require,module,exports){
 var CommentStore, expect;
 
 expect = require('chai').expect;
@@ -15493,15 +15566,7 @@ module.exports = function() {
 };
 
 
-},{"chai":6,"connectx/stores":49}],60:[function(require,module,exports){
-var expect;
-
-expect = require('chai').expect;
-
-module.exports = function() {};
-
-
-},{"chai":6}],61:[function(require,module,exports){
+},{"chai":6,"connectx/stores":50}],61:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15550,6 +15615,14 @@ module.exports = function() {};
 
 
 },{"chai":6}],67:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":6}],68:[function(require,module,exports){
 var ActionType, Dispatcher, PostStore, clearEverything, createServerPosts, createTestPost, expect, failTestPost, retryTestPost, serverPost, syncTestPost, testPost, _;
 
 expect = require('chai').expect;
@@ -15747,7 +15820,7 @@ module.exports = function() {
 };
 
 
-},{"chai":6,"connectx/config":41,"connectx/dispatcher":42,"connectx/stores":49,"lodash":57}],68:[function(require,module,exports){
+},{"chai":6,"connectx/config":41,"connectx/dispatcher":42,"connectx/stores":50,"lodash":58}],69:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15755,4 +15828,4 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":6}]},{},[58]);
+},{"chai":6}]},{},[59]);
