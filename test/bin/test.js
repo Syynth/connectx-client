@@ -7760,7 +7760,7 @@ module.exports = new ConnectionStore(Dispatcher);
 
 
 },{"./baseStore":44,"./groupStore":49,"./userStore":53,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],47:[function(require,module,exports){
-var ActionType, BaseStore, Cache, CurrentUserStore, Dispatcher, SourceType, _ref,
+var ActionType, BaseStore, CurrentUserStore, Dispatcher, SourceType, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -7769,8 +7769,6 @@ Dispatcher = require('connectx/dispatcher');
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
 BaseStore = require('./baseStore');
-
-Cache = require('connectx/cache');
 
 CurrentUserStore = (function(_super) {
   __extends(CurrentUserStore, _super);
@@ -7846,7 +7844,7 @@ CurrentUserStore = (function(_super) {
 module.exports = new CurrentUserStore(Dispatcher);
 
 
-},{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
+},{"./baseStore":44,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15583,14 +15581,33 @@ module.exports = function() {};
 
 
 },{"chai":6}],63:[function(require,module,exports){
-var expect;
+var ActionType, Cache, CurrentUserStore, Dispatcher, MemoryCache, clearEverything, expect, _;
 
 expect = require('chai').expect;
+
+ActionType = require('connectx/config').ActionType;
+
+CurrentUserStore = require('connectx/stores').CurrentUserStore;
+
+MemoryCache = require('connectx/memoryCache');
+
+Cache = require('connectx/cache');
+
+_ = require('lodash');
+
+Dispatcher = require('connectx/dispatcher');
+
+clearEverything = function() {
+  localStorage.clear();
+  CurrentUserStore.clearAll();
+  CurrentUserStore.cache = new Cache;
+  return CurrentUserStore.queue = new MemoryCache;
+};
 
 module.exports = function() {};
 
 
-},{"chai":6}],64:[function(require,module,exports){
+},{"chai":6,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"connectx/memoryCache":43,"connectx/stores":50,"lodash":58}],64:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15623,13 +15640,15 @@ module.exports = function() {};
 
 
 },{"chai":6}],68:[function(require,module,exports){
-var ActionType, Dispatcher, PostStore, clearEverything, createServerPosts, createTestPost, expect, failTestPost, retryTestPost, serverPost, syncTestPost, testPost, _;
+var ActionType, Dispatcher, MemoryCache, PostStore, clearEverything, createServerPosts, createTestPost, expect, failTestPost, retryTestPost, serverPost, syncTestPost, testPost, _;
 
 expect = require('chai').expect;
 
 ActionType = require('connectx/config').ActionType;
 
 PostStore = require('connectx/stores').PostStore;
+
+MemoryCache = require('connectx/memoryCache');
 
 _ = require('lodash');
 
@@ -15639,7 +15658,8 @@ clearEverything = function() {
   localStorage.clear();
   PostStore.clearAll();
   PostStore.cache.data = {};
-  return PostStore.cache.mem = {};
+  PostStore.cache.mem = {};
+  return PostStore.queue = new MemoryCache;
 };
 
 createTestPost = function() {
@@ -15732,12 +15752,12 @@ module.exports = function() {
         before('simulating user created post...', createTestPost);
         after('resetting post store', clearEverything);
         it('should add single posts to the cache when a user posts', function() {
-          return expect(PostStore.cache.data['1']).to.include(testPost);
+          return expect(PostStore.get('1')).to.include(testPost);
         });
         it('should add multiple posts when a collection is fetched', function() {
           createServerPosts();
-          expect(PostStore.cache.data['s1']).to.include(testPost);
-          return expect(PostStore.cache.data['s2']).to.include(serverPost);
+          expect(PostStore.get('s1')).to.include(testPost);
+          return expect(PostStore.get('s2')).to.include(serverPost);
         });
         it('should add a getId property to all posts', function() {
           var post, postId, _ref, _results;
@@ -15820,7 +15840,7 @@ module.exports = function() {
 };
 
 
-},{"chai":6,"connectx/config":41,"connectx/dispatcher":42,"connectx/stores":50,"lodash":58}],69:[function(require,module,exports){
+},{"chai":6,"connectx/config":41,"connectx/dispatcher":42,"connectx/memoryCache":43,"connectx/stores":50,"lodash":58}],69:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
