@@ -7131,8 +7131,8 @@ module.exports = Cache;
 var env;
 
 env = {
-  debug: true,
-  production: false
+  debug: false,
+  production: true
 };
 
 module.exports = {
@@ -7754,7 +7754,8 @@ CurrentUserStore = (function(_super) {
       action: ActionType.EntityLogin,
       fn: function(action) {
         return this.set('currentActor', action.entity);
-      },
+      }
+    }, {
       action: ActionType.UserUpdate,
       fn: function(action) {
         return this.set('currentUser', action.user);
