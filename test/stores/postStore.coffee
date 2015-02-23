@@ -3,6 +3,7 @@
 
 {ActionType} = require 'connectx/config'
 {PostStore} = require 'connectx/stores'
+MemoryCache = require 'connectx/memoryCache'
 _ = require 'lodash'
 
 Dispatcher = require 'connectx/dispatcher'
@@ -12,6 +13,7 @@ clearEverything = ->
   PostStore.clearAll()
   PostStore.cache.data = {}
   PostStore.cache.mem = {}
+  PostStore.queue = new MemoryCache
 
 createTestPost = ->
   Dispatcher.handleClientAction
@@ -76,11 +78,11 @@ module.exports = ->
         before 'simulating user created post...', createTestPost
         after 'resetting post store', clearEverything
         it 'should add single posts to the cache when a user posts', ->
-          expect(PostStore.cache.data['1']).to.include testPost
+          expect(PostStore.get '1').to.include testPost
         it 'should add multiple posts when a collection is fetched', ->
           createServerPosts()
-          expect(PostStore.cache.data['s1']).to.include testPost
-          expect(PostStore.cache.data['s2']).to.include serverPost
+          expect(PostStore.get 's1').to.include testPost
+          expect(PostStore.get 's2').to.include serverPost
         it 'should add a getId property to all posts', ->
           for postId, post of PostStore.cache.data
             expect(post.getId()).to.equal postId
