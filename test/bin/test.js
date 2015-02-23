@@ -7081,8 +7081,8 @@ var Cache, _;
 _ = require('lodash');
 
 Cache = (function() {
-  function Cache(data) {
-    this.data = data != null ? data : {};
+  function Cache(_at_data) {
+    this.data = _at_data != null ? _at_data : {};
     this.mem = _.clone(this.data);
   }
 
@@ -7171,13 +7171,15 @@ module.exports = {
 
 
 },{}],42:[function(require,module,exports){
-var ConnectxDispatcher, Dispatcher, SourceType,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var ConnectxDispatcher, Dispatcher, SourceType, logging,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('flux').Dispatcher;
 
 SourceType = require('./config').SourceType;
+
+logging = false;
 
 ConnectxDispatcher = (function(_super) {
   __extends(ConnectxDispatcher, _super);
@@ -7191,7 +7193,9 @@ ConnectxDispatcher = (function(_super) {
       source: SourceType.Server,
       action: action
     });
-    return console.log("Dispatching server action " + action.type);
+    if (logging) {
+      return console.log("Dispatching server action " + action.type);
+    }
   };
 
   ConnectxDispatcher.prototype.handleClientAction = function(action) {
@@ -7199,20 +7203,26 @@ ConnectxDispatcher = (function(_super) {
       source: SourceType.Client,
       action: action
     });
-    return console.log("Dispatching client action " + action.type);
+    if (logging) {
+      return console.log("Dispatching client action " + action.type);
+    }
   };
 
-  module.exports = new ConnectxDispatcher;
+  ConnectxDispatcher.prototype.toggleLogging = function() {
+    return logging = !logging;
+  };
 
   return ConnectxDispatcher;
 
 })(Dispatcher);
 
+module.exports = new ConnectxDispatcher;
+
 
 },{"./config":41,"flux":53}],43:[function(require,module,exports){
 var BaseStore, Cache, ChangeEvent, EventEmitter, changeQueued, guid, publishChange, stores, _,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 EventEmitter = require('events').EventEmitter;
 
@@ -7236,8 +7246,8 @@ publishChange = function() {
 BaseStore = (function(_super) {
   __extends(BaseStore, _super);
 
-  function BaseStore(dispatcher) {
-    this.dispatcher = dispatcher;
+  function BaseStore(_at_dispatcher) {
+    this.dispatcher = _at_dispatcher;
     this.dispatchToken = this.dispatcher.register((function(_this) {
       return function(payload) {
         return _this.handleDispatch(payload);
@@ -7324,9 +7334,13 @@ BaseStore = (function(_super) {
   };
 
   BaseStore.prototype.emitChange = function() {
-    if (!changeQueued) {
-      changeQueued = true;
-      return window.requestAnimationFrame(publishChange.bind(this));
+    if (window.requestAnimationFrame) {
+      if (!changeQueued) {
+        changeQueued = true;
+        return window.requestAnimationFrame(publishChange.bind(this));
+      }
+    } else {
+      return publishChange.bind(this);
     }
   };
 
@@ -7365,8 +7379,8 @@ module.exports = BaseStore;
 
 },{"connectx/cache":40,"events":5,"guid":56,"lodash":57}],44:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CommentStore, Dispatcher, SourceType, addComments, addCommentsForPosts, getKeyForAction, getKeyForComment, markCommentFailed, markPending, migrateCommentToServerId, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -7540,8 +7554,8 @@ module.exports = new CommentStore(Dispatcher);
 
 },{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],45:[function(require,module,exports){
 var ActionType, BaseStore, ConnectionStore, Dispatcher, GroupStore, SourceType, UserStore, etypes, getEntityConnections, getEntityForData, getType, isAdminOf, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7691,8 +7705,8 @@ module.exports = new ConnectionStore(Dispatcher);
 
 },{"./baseStore":43,"./groupStore":48,"./userStore":52,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],46:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CurrentUserStore, Dispatcher, SourceType, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7760,8 +7774,8 @@ module.exports = new CurrentUserStore(Dispatcher);
 
 },{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42}],47:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7818,8 +7832,8 @@ module.exports = new FileStore(Dispatcher);
 
 },{"./baseStore":43,"./postStore":51,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, GroupStore, SourceType, recordGroup, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ = require('lodash');
 
@@ -7911,8 +7925,8 @@ module.exports = {
 
 },{"./commentStore":44,"./connectionStore":45,"./currentUserStore":46,"./fileStore":47,"./groupStore":48,"./notificationStore":50,"./postStore":51,"./userStore":52}],50:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, NotificationStore, SourceType, addNotification, getKey, n, removeNotification, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7925,7 +7939,7 @@ BaseStore = require('./baseStore');
 n = {};
 
 getKey = function(n) {
-  return "" + n.message + "_" + n.detail + "_" + n.status;
+  return n.message + "_" + n.detail + "_" + n.status;
 };
 
 removeNotification = function(data) {
@@ -7984,8 +7998,8 @@ module.exports = new NotificationStore(Dispatcher);
 
 },{"./baseStore":43,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],51:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, PostStore, SourceType, addPosts, getKeyForAction, getKeyForPost, markPending, markPostFailed, migratePostToServerId, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -8010,7 +8024,7 @@ markPostFailed = function(action) {
   post = this.get(action.clientId);
   post.failed = true;
   post.pending = false;
-  return this.commit();
+  return this.set(action.clientId, post);
 };
 
 migratePostToServerId = function(action) {
@@ -8025,7 +8039,7 @@ migratePostToServerId = function(action) {
     return getKeyForPost(post);
   };
   delete post.failed;
-  this.unset(oldId);
+  this.cache.unset(oldId);
   return this.set(newId, post);
 };
 
@@ -8175,8 +8189,8 @@ module.exports = new PostStore(Dispatcher);
 
 },{"./baseStore":43,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":57}],52:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, SourceType, UserStore, recordEntity, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ = require('lodash');
 
@@ -15441,111 +15455,6 @@ module.exports = invariant;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],58:[function(require,module,exports){
-'use strict';
-
-function ProxyquireifyError(msg) {
-  this.name = 'ProxyquireifyError';
-  Error.captureStackTrace(this, ProxyquireifyError);
-  this.message = msg || 'An error occurred inside proxyquireify.';
-}
-
-function validateArguments(request, stubs) {
-  var msg = (function getMessage() {
-    if (!request)
-      return 'Missing argument: "request". Need it to resolve desired module.';
-
-    if (!stubs)
-      return 'Missing argument: "stubs". If no stubbing is needed, use regular require instead.';
-
-    if (typeof request != 'string')
-      return 'Invalid argument: "request". Needs to be a requirable string that is the module to load.';
-
-    if (typeof stubs != 'object')
-      return 'Invalid argument: "stubs". Needs to be an object containing overrides e.g., {"path": { extname: function () { ... } } }.';
-  })();
-
-  if (msg) throw new ProxyquireifyError(msg);
-}
-
-var stubs;
-
-function stub(stubs_) {
-  stubs = stubs_;
-  // This cache is used by the prelude as an alternative to the regular cache.
-  // It is not read or written here, except to set it to an empty object when
-  // adding stubs and to reset it to null when clearing stubs.
-  module.exports._cache = {};
-}
-
-function reset() {
-  stubs = undefined;
-  module.exports._cache = null;
-}
-
-function fillMissingKeys(mdl, original) {
-  Object.keys(original).forEach(function (key) {
-    if (!mdl[key]) mdl[key] = original[key];
-  });
-  if (typeof mdl === 'function' && typeof original === 'function') {
-      Object.keys(original.prototype).forEach(function (key) {
-          if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
-      });
-  }
-
-  return mdl;
-}
-
-var proxyquire = module.exports = function (require_) {
-  if (typeof require_ != 'function')
-    throw new ProxyquireifyError(
-        'It seems like you didn\'t initialize proxyquireify with the require in your test.\n'
-      + 'Make sure to correct this, i.e.: "var proxyquire = require(\'proxyquireify\')(require);"'
-    );
-
-  reset();
-
-  return function(request, stubs) {
-
-    validateArguments(request, stubs);
-
-    // set the stubs and require dependency
-    // when stub require is invoked by the module under test it will find the stubs here
-    stub(stubs);
-    var dep = require_(request);
-    reset();
-
-    return dep;
-  };
-};
-
-// Start with the default cache
-proxyquire._cache = null;
-
-proxyquire._proxy = function (require_, request) {
-  function original() {
-    return require_(request);
-  }
-
-  if (!stubs) return original();
-
-  var stub = stubs[request];
-
-  if (!stub) return original();
-
-  var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
-  var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
-  return noCallThru ? stub : fillMissingKeys(stub, original());
-};
-
-if (require.cache) {
-  // only used during build, so prevent browserify from including it
-  var replacePreludePath = './lib/replace-prelude';
-  var replacePrelude = require(replacePreludePath);
-  proxyquire.browserify = replacePrelude.browserify;
-  proxyquire.plugin = replacePrelude.plugin;
-}
-
-},{}],59:[function(require,module,exports){
 require('./stores/commentStore')();
 
 require('./stores/connectionStore')();
@@ -15567,12 +15476,8 @@ require('./stores/postStore')();
 require('./stores/userStore')();
 
 
-},{"./stores/commentStore":60,"./stores/connectionStore":61,"./stores/courseStore":62,"./stores/currentUserStore":63,"./stores/eventStore":64,"./stores/fileStore":65,"./stores/groupStore":66,"./stores/notificationStore":67,"./stores/postStore":68,"./stores/userStore":69}],60:[function(require,module,exports){
-var CommentStore, expect, proxy;
-
-proxy = require('proxyquireify')(require);
-
-proxy('./baseStore', function() {});
+},{"./stores/commentStore":59,"./stores/connectionStore":60,"./stores/courseStore":61,"./stores/currentUserStore":62,"./stores/eventStore":63,"./stores/fileStore":64,"./stores/groupStore":65,"./stores/notificationStore":66,"./stores/postStore":67,"./stores/userStore":68}],59:[function(require,module,exports){
+var CommentStore, expect;
 
 expect = require('chai').expect;
 
@@ -15587,7 +15492,15 @@ module.exports = function() {
 };
 
 
-},{"chai":6,"connectx/stores":49,"proxyquireify":58}],61:[function(require,module,exports){
+},{"chai":6,"connectx/stores":49}],60:[function(require,module,exports){
+var expect;
+
+expect = require('chai').expect;
+
+module.exports = function() {};
+
+
+},{"chai":6}],61:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15636,6 +15549,204 @@ module.exports = function() {};
 
 
 },{"chai":6}],67:[function(require,module,exports){
+var ActionType, Dispatcher, PostStore, clearEverything, createServerPosts, createTestPost, expect, failTestPost, retryTestPost, serverPost, syncTestPost, testPost, _;
+
+expect = require('chai').expect;
+
+ActionType = require('connectx/config').ActionType;
+
+PostStore = require('connectx/stores').PostStore;
+
+_ = require('lodash');
+
+Dispatcher = require('connectx/dispatcher');
+
+clearEverything = function() {
+  localStorage.clear();
+  PostStore.clearAll();
+  PostStore.cache.data = {};
+  return PostStore.cache.mem = {};
+};
+
+createTestPost = function() {
+  return Dispatcher.handleClientAction({
+    type: ActionType.CreatePost,
+    clientId: '1',
+    posts: [testPost]
+  });
+};
+
+syncTestPost = function() {
+  return Dispatcher.handleServerAction({
+    type: ActionType.PostSaved,
+    clientId: '1',
+    serverId: 's3',
+    post: testPost
+  });
+};
+
+failTestPost = function() {
+  return Dispatcher.handleServerAction({
+    type: ActionType.PostCreationFailed,
+    clientId: '1',
+    post: testPost
+  });
+};
+
+retryTestPost = function() {
+  return Dispatcher.handleClientAction({
+    type: ActionType.PostResent,
+    clientId: '1',
+    post: testPost
+  });
+};
+
+createServerPosts = function() {
+  return Dispatcher.handleServerAction({
+    type: ActionType.PostCollectionSync,
+    posts: [
+      _.extend({}, {
+        id: 's1'
+      }, testPost), serverPost
+    ]
+  });
+};
+
+testPost = {
+  text: 'test post',
+  author: {
+    id: 'usr1',
+    type: 'user'
+  },
+  owner: {
+    id: 'usr1',
+    type: 'user'
+  },
+  createdAt: Date.now()
+};
+
+serverPost = {
+  id: 's2',
+  text: 'test post2',
+  author: {
+    id: 'usr2',
+    type: 'user'
+  },
+  owner: {
+    id: 'usr2',
+    type: 'user'
+  },
+  createdAt: Date.now()
+};
+
+module.exports = function() {
+  return describe('Post Store tests', function() {
+    before('clear everything', clearEverything);
+    describe('| initial conditions', function() {
+      it('should exist', function() {
+        return expect(PostStore).to.exist;
+      });
+      it('should have reference to the dispatcher', function() {
+        return expect(PostStore.dispatcher).to.equal(Dispatcher);
+      });
+      return it('should have no posts in the cache', function() {
+        return expect(PostStore.cache.data).to.be.empty;
+      });
+    });
+    return describe('| post store action handlers', function() {
+      describe('| creating posts', function() {
+        before('simulating user created post...', createTestPost);
+        after('resetting post store', clearEverything);
+        it('should add single posts to the cache when a user posts', function() {
+          return expect(PostStore.cache.data['1']).to.include(testPost);
+        });
+        it('should add multiple posts when a collection is fetched', function() {
+          createServerPosts();
+          expect(PostStore.cache.data['s1']).to.include(testPost);
+          return expect(PostStore.cache.data['s2']).to.include(serverPost);
+        });
+        it('should add a getId property to all posts', function() {
+          var post, postId, _ref, _results;
+          _ref = PostStore.cache.data;
+          _results = [];
+          for (postId in _ref) {
+            post = _ref[postId];
+            _results.push(expect(post.getId()).to.equal(postId));
+          }
+          return _results;
+        });
+        return it('should contain the correct number of posts', function() {
+          return expect(_.keys(PostStore.cache.data)).to.have.length(3);
+        });
+      });
+      describe('| syncing posts to the server', function() {
+        before('simulating user created post...', function() {
+          createTestPost();
+          return createServerPosts();
+        });
+        after('resetting post store', clearEverything);
+        it('should mark posts as pending before sync completes', function() {
+          return expect(PostStore.get('1').pending).to.be["true"];
+        });
+        it('should mark posts from the server as not pending', function() {
+          return expect(PostStore.get('s1').pending).to.not.exist;
+        });
+        return it('should change a posts id when sync succeeds', function() {
+          expect(PostStore.get('1')).to.exist;
+          expect(PostStore.get('1').pending).to.be["true"];
+          syncTestPost();
+          expect(PostStore.get('1')).to.not.exist;
+          expect(PostStore.get('s3')).to.exist;
+          return expect(PostStore.get('s3').pending).to.be["false"];
+        });
+      });
+      describe('| handling sync failures', function() {
+        before('simulating user created post...', createTestPost);
+        after('resetting post store', clearEverything);
+        return it('should mark a post as failed when sync fails', function() {
+          expect(PostStore.get('1').failed).to.not.exist;
+          expect(PostStore.get('1').pending).to.be["true"];
+          failTestPost();
+          expect(PostStore.get('1').failed).to.be["true"];
+          return expect(PostStore.get('1').pending).to.be["false"];
+        });
+      });
+      return describe('| handling failed post retries', function() {
+        before('simulating user created post...', function() {
+          createTestPost();
+          return failTestPost();
+        });
+        after('resetting post store', clearEverything);
+        it('should mark a post as pending when it is retried', function() {
+          expect(PostStore.get('1').failed).to.be["true"];
+          expect(PostStore.get('1').pending).to.be["false"];
+          retryTestPost();
+          expect(PostStore.get('1').failed).to.be["false"];
+          return expect(PostStore.get('1').pending).to.be["true"];
+        });
+        return it('should migrate a failed post after a successful retry', function() {
+          clearEverything();
+          createTestPost();
+          failTestPost();
+          expect(PostStore.get('1').failed).to.be["true"];
+          expect(PostStore.get('1').pending).to.be["false"];
+          retryTestPost();
+          expect(PostStore.get('1').failed).to.be["false"];
+          expect(PostStore.get('1').pending).to.be["true"];
+          expect(PostStore.get('s3')).to.not.exist;
+          syncTestPost();
+          expect(PostStore.get('1')).to.not.exist;
+          expect(PostStore.get('s3')).to.exist;
+          expect(PostStore.get('s3').failed).to.not.be.okay;
+          return expect(PostStore.get('s3').pending).to.be["false"];
+        });
+      });
+    });
+  });
+};
+
+
+},{"chai":6,"connectx/config":41,"connectx/dispatcher":42,"connectx/stores":49,"lodash":57}],68:[function(require,module,exports){
 var expect;
 
 expect = require('chai').expect;
@@ -15643,20 +15754,4 @@ expect = require('chai').expect;
 module.exports = function() {};
 
 
-},{"chai":6}],68:[function(require,module,exports){
-var expect;
-
-expect = require('chai').expect;
-
-module.exports = function() {};
-
-
-},{"chai":6}],69:[function(require,module,exports){
-var expect;
-
-expect = require('chai').expect;
-
-module.exports = function() {};
-
-
-},{"chai":6}]},{},[59]);
+},{"chai":6}]},{},[58]);
