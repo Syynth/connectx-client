@@ -7081,8 +7081,8 @@ var Cache, _;
 _ = require('lodash');
 
 Cache = (function() {
-  function Cache(data) {
-    this.data = data != null ? data : {};
+  function Cache(_at_data) {
+    this.data = _at_data != null ? _at_data : {};
     this.mem = _.clone(this.data);
   }
 
@@ -7173,8 +7173,8 @@ module.exports = {
 
 },{}],42:[function(require,module,exports){
 var ConnectxDispatcher, Dispatcher, SourceType, logging,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('flux').Dispatcher;
 
@@ -7226,8 +7226,8 @@ var MemoryCache, _;
 _ = require('lodash');
 
 MemoryCache = (function() {
-  function MemoryCache(data) {
-    this.data = data != null ? data : {};
+  function MemoryCache(_at_data) {
+    this.data = _at_data != null ? _at_data : {};
   }
 
   MemoryCache.prototype.query = function(predicate) {
@@ -7267,9 +7267,9 @@ module.exports = MemoryCache;
 
 
 },{"lodash":58}],44:[function(require,module,exports){
-var BaseStore, Cache, ChangeEvent, EventEmitter, MemCache, changeQueued, guid, publishChange, stores, _,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var BaseStore, Cache, ChangeEvent, EventEmitter, MemCache, changeQueued, defaultObj, defaultValue, guid, publishChange, stores, _,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 EventEmitter = require('events').EventEmitter;
 
@@ -7292,11 +7292,38 @@ publishChange = function() {
   return changeQueued = false;
 };
 
+defaultValue = function(valType) {
+  if (valType === String) {
+    return null;
+  }
+  if (_.isObject(valType)) {
+    return defaultObj(valType);
+  }
+  if (_.isArray(valType)) {
+    return valType.map(function(v) {
+      return defaultValue(v);
+    });
+  }
+};
+
+defaultObj = function(schema) {
+  var key, res, val;
+  res = {};
+  if (!schema) {
+    return res;
+  }
+  for (key in schema) {
+    val = schema[key];
+    res[key] = defaultValue(val);
+  }
+  return res;
+};
+
 BaseStore = (function(_super) {
   __extends(BaseStore, _super);
 
-  function BaseStore(dispatcher) {
-    this.dispatcher = dispatcher;
+  function BaseStore(_at_dispatcher) {
+    this.dispatcher = _at_dispatcher;
     this.dispatchToken = this.dispatcher.register((function(_this) {
       return function(payload) {
         return _this.handleDispatch(payload);
@@ -7389,6 +7416,18 @@ BaseStore = (function(_super) {
     return _.pick(_.clone(data), _.keys(this.schema));
   };
 
+  BaseStore.prototype.defaultInstance = function() {
+    if (this.schema) {
+      return defaultObj(this.schema);
+    } else {
+      return {};
+    }
+  };
+
+  BaseStore.prototype.ensureFields = function(data) {
+    return _.extend({}, this.defaultInstance(), data);
+  };
+
   BaseStore.prototype.emitChange = function() {
     if (window.requestAnimationFrame) {
       if (!changeQueued) {
@@ -7435,8 +7474,8 @@ module.exports = BaseStore;
 
 },{"connectx/cache":40,"connectx/memoryCache":43,"events":5,"guid":57,"lodash":58}],45:[function(require,module,exports){
 var ActionType, BaseStore, Cache, CommentStore, Dispatcher, SourceType, addComments, addCommentsForPosts, getKeyForAction, getKeyForComment, markCommentFailed, markPending, migrateCommentToServerId, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -7610,8 +7649,8 @@ module.exports = new CommentStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],46:[function(require,module,exports){
 var ActionType, BaseStore, ConnectionStore, Dispatcher, GroupStore, SourceType, UserStore, etypes, getEntityConnections, getEntityForData, getType, isAdminOf, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7761,8 +7800,8 @@ module.exports = new ConnectionStore(Dispatcher);
 
 },{"./baseStore":44,"./groupStore":49,"./userStore":53,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],47:[function(require,module,exports){
 var ActionType, BaseStore, CurrentUserStore, Dispatcher, SourceType, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7779,6 +7818,25 @@ CurrentUserStore = (function(_super) {
 
   CurrentUserStore.prototype.storeKey = 'CURRENT_USER';
 
+  CurrentUserStore.prototype.schema = {
+    id: String,
+    description: String,
+    email: String,
+    images: [String],
+    name: String,
+    password: String,
+    salt: String,
+    token: String,
+    verificationId: String,
+    location: {
+      address: String,
+      city: String,
+      state: String,
+      zip: String,
+      note: String
+    }
+  };
+
   CurrentUserStore.prototype.isLoggedIn = function() {
     return this.get('currentUser') != null;
   };
@@ -7789,7 +7847,7 @@ CurrentUserStore = (function(_super) {
     if (res) {
       return res;
     }
-    return this.get('currentUser');
+    return this.ensureFields(this.get('currentUser'));
   };
 
   CurrentUserStore.prototype.getCurrentActor = function() {
@@ -7807,6 +7865,10 @@ CurrentUserStore = (function(_super) {
     return localStorage.clear();
   };
 
+  CurrentUserStore.prototype.set = function(key, val) {
+    return CurrentUserStore.__super__.set.call(this, key, this.ensureFields(val));
+  };
+
   CurrentUserStore.prototype.handlers = [
     {
       action: ActionType.UserLogin,
@@ -7817,7 +7879,8 @@ CurrentUserStore = (function(_super) {
     }, {
       action: ActionType.EntityLogin,
       fn: function(action) {
-        return this.set('currentActor', action.entity);
+        this.cache.set('currentActor', action.entity);
+        return this.commit();
       }
     }, {
       action: ActionType.UserUpdateClient,
@@ -7846,8 +7909,8 @@ module.exports = new CurrentUserStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/config":41,"connectx/dispatcher":42}],48:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, FileStore, PostStore, SourceType, files, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -7904,8 +7967,8 @@ module.exports = new FileStore(Dispatcher);
 
 },{"./baseStore":44,"./postStore":52,"connectx/config":41,"connectx/dispatcher":42}],49:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, GroupStore, SourceType, recordGroup, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ = require('lodash');
 
@@ -7997,8 +8060,8 @@ module.exports = {
 
 },{"./commentStore":45,"./connectionStore":46,"./currentUserStore":47,"./fileStore":48,"./groupStore":49,"./notificationStore":51,"./postStore":52,"./userStore":53}],51:[function(require,module,exports){
 var ActionType, BaseStore, Dispatcher, NotificationStore, SourceType, addNotification, getKey, n, removeNotification, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 Dispatcher = require('connectx/dispatcher');
 
@@ -8011,7 +8074,7 @@ BaseStore = require('./baseStore');
 n = {};
 
 getKey = function(n) {
-  return "" + n.message + "_" + n.detail + "_" + n.status;
+  return n.message + "_" + n.detail + "_" + n.status;
 };
 
 removeNotification = function(data) {
@@ -8070,8 +8133,8 @@ module.exports = new NotificationStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],52:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, PostStore, SourceType, addPosts, getKeyForAction, getKeyForPost, markPending, markPostFailed, migratePostToServerId, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ref = require('connectx/config'), SourceType = _ref.SourceType, ActionType = _ref.ActionType;
 
@@ -8261,8 +8324,8 @@ module.exports = new PostStore(Dispatcher);
 
 },{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"lodash":58}],53:[function(require,module,exports){
 var ActionType, BaseStore, Cache, Dispatcher, EventEmitter, SourceType, UserStore, recordEntity, _, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 _ = require('lodash');
 
@@ -8299,7 +8362,14 @@ UserStore = (function(_super) {
     password: String,
     salt: String,
     token: String,
-    verificationId: String
+    verificationId: String,
+    location: {
+      address: String,
+      city: String,
+      state: String,
+      zip: String,
+      note: String
+    }
   };
 
   function UserStore(dispatcher) {
@@ -8307,6 +8377,10 @@ UserStore = (function(_super) {
     UserStore.__super__.constructor.call(this, dispatcher);
     p = new Cache(this.read('cache'));
   }
+
+  UserStore.prototype.set = function(key, val) {
+    return UserStore.__super__.set.call(this, key, this.ensureFields(val));
+  };
 
   UserStore.prototype.getById = function(id) {
     return this.get(id);
@@ -8317,17 +8391,10 @@ UserStore = (function(_super) {
   };
 
   UserStore.prototype.getByIdOrDefault = function(id) {
-    var key, res, val;
+    var res;
     res = this.get(id);
     if (!res) {
-      res = _.clone(this.schema);
-      for (key in res) {
-        val = res[key];
-        res[key] = '';
-      }
-      res._id = id;
-      res.id = id;
-      res.images = [];
+      return this.defaultInstance();
     }
     return res;
   };
