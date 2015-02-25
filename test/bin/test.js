@@ -7603,10 +7603,6 @@ CommentStore = (function(_super) {
     });
   };
 
-  CommentStore.prototype.getById = function(id) {
-    return this.get(id);
-  };
-
   CommentStore.prototype.getCommentsForPost = function(postId) {
     return this.query(function(comment) {
       return comment.postId === postId;
@@ -8006,25 +8002,20 @@ GroupStore = (function(_super) {
     images: [String],
     name: String,
     password: String,
+    location: {
+      address: String,
+      city: String,
+      state: String,
+      zip: String,
+      note: String
+    },
     salt: String,
     token: String,
     verificationId: String
   };
 
   GroupStore.prototype.getOrDefault = function(id) {
-    var key, res, val;
-    res = this.get(id);
-    if (!res) {
-      res = _.clone(this.schema);
-      for (key in res) {
-        val = res[key];
-        res[key] = '...';
-      }
-      res._id = id;
-      res.id = id;
-      res.images = [];
-    }
-    return res;
+    return this.ensureFields(this.get(id));
   };
 
   GroupStore.prototype.onStorageFull = function() {
@@ -8042,7 +8033,7 @@ GroupStore = (function(_super) {
 
 })(BaseStore);
 
-window.GroupStore = module.exports = new GroupStore(Dispatcher);
+module.exports = new GroupStore(Dispatcher);
 
 
 },{"./baseStore":44,"connectx/cache":40,"connectx/config":41,"connectx/dispatcher":42,"events":5,"lodash":58}],50:[function(require,module,exports){
@@ -8272,10 +8263,6 @@ PostStore = (function(_super) {
     });
   };
 
-  PostStore.prototype.getById = function(id) {
-    return this.get(id);
-  };
-
   PostStore.prototype.getByAuthorId = function(id) {
     return this.query(function(post) {
       return post.author.id === id;
@@ -8382,21 +8369,8 @@ UserStore = (function(_super) {
     return UserStore.__super__.set.call(this, key, this.ensureFields(val));
   };
 
-  UserStore.prototype.getById = function(id) {
-    return this.get(id);
-  };
-
   UserStore.prototype.getOrDefault = function(id) {
-    return this.getByIdOrDefault(id);
-  };
-
-  UserStore.prototype.getByIdOrDefault = function(id) {
-    var res;
-    res = this.get(id);
-    if (!res) {
-      return this.defaultInstance();
-    }
-    return res;
+    return this.ensureFields(this.get(id));
   };
 
   UserStore.prototype.onStorageFull = function() {
