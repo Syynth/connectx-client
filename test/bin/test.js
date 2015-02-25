@@ -7296,6 +7296,9 @@ defaultValue = function(valType) {
   if (valType === String) {
     return null;
   }
+  if (valType === Number) {
+    return null;
+  }
   if (_.isObject(valType)) {
     return defaultObj(valType);
   }
@@ -7303,6 +7306,9 @@ defaultValue = function(valType) {
     return valType.map(function(v) {
       return defaultValue(v);
     });
+  }
+  if (_.isString(valType) || _.isNumber(valType)) {
+    return valType;
   }
 };
 
@@ -7984,7 +7990,7 @@ recordGroup = function(action) {
     return;
   }
   id = action.entity.id;
-  return this.set(id, action.entity);
+  return this.set(id, this.ensureFields(action.entity));
 };
 
 GroupStore = (function(_super) {
@@ -7998,20 +8004,25 @@ GroupStore = (function(_super) {
 
   GroupStore.prototype.schema = {
     id: String,
-    description: String,
-    images: [String],
+    type: 'group',
     name: String,
-    password: String,
+    privacy: String,
+    description: String,
+    announcement: {
+      title: String,
+      body: String
+    },
     location: {
       address: String,
       city: String,
       state: String,
-      zip: String,
+      zip: Number,
       note: String
     },
-    salt: String,
-    token: String,
-    verificationId: String
+    profileImage: String,
+    coverImage: String,
+    timesFile: String,
+    resultsFile: String
   };
 
   GroupStore.prototype.getOrDefault = function(id) {
@@ -8332,7 +8343,7 @@ recordEntity = function(action) {
     return;
   }
   id = action.entity.id;
-  return this.set(id, action.entity);
+  return this.set(id, this.ensureFields(action.entity));
 };
 
 UserStore = (function(_super) {
@@ -8342,21 +8353,25 @@ UserStore = (function(_super) {
 
   UserStore.prototype.schema = {
     id: String,
-    description: String,
+    type: 'user',
     email: String,
-    images: [String],
-    name: String,
     password: String,
-    salt: String,
     token: String,
+    salt: String,
     verificationId: String,
+    name: String,
+    privacy: String,
+    description: String,
     location: {
       address: String,
       city: String,
       state: String,
       zip: String,
       note: String
-    }
+    },
+    profileImage: String,
+    coverImage: String,
+    images: [String]
   };
 
   function UserStore(dispatcher) {
