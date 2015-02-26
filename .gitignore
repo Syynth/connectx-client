@@ -5,5 +5,7 @@ bin/*
 .DS_Store
 res/bower_components/
 **/.sass-cache/
-test/bin/test.js
+./connectx
+test/bin/*
+!test/bin/index.html
 .idea/
