@@ -6,5 +6,6 @@ bin/*
 res/bower_components/
 **/.sass-cache/
 ./connectx
-test/bin/test.js
+test/bin/*
+!test/bin/index.html
 .idea/
