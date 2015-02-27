@@ -39,6 +39,10 @@ module.exports = ->
         expect(CurrentUserStore.dispatcher).to.equal(Dispatcher)
       it 'should not be logged in', ->
         expect(CurrentUserStore.isLoggedIn()).to.be.false
+      it 'should not have a current user', ->
+        expect(CurrentUserStore.getCurrentUser()).to.not.be.ok
+      it 'should not have a current actor', ->
+        expect(CurrentUserStore.getCurrentActor()).to.not.be.ok
 
     describe '| action creators', ->
       #afterEach clearEverything
@@ -47,3 +51,5 @@ module.exports = ->
           expect(CurrentUserStore.isLoggedIn()).to.be.false
           doUserLogin()
           expect(CurrentUserStore.isLoggedIn()).to.be.true
+        it 'should set the current user to be the current actor', ->
+          expect(CurrentUserStore.getCurrentUser()).to.equal(CurrentUserStore.getCurrentActor())
