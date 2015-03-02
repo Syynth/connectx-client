@@ -9,6 +9,10 @@ _ = require 'lodash'
 Dispatcher = require 'connectx/dispatcher'
 
 user1 = {}
+user2 =
+  id: 'user2'
+  type: 'user'
+  connections: []
 
 group1 = ->
   id: 'group1'
@@ -48,6 +52,20 @@ doEntityFetch = ->
     type: ActionType.EntityFetch
     entity: group1()
 
+doConnectionCreate = ->
+  Dispatcher.handleClientAction
+    type: ActionType.ConnectionSentClient
+    from: user2
+    to: group1()
+    localId: 'connection-3'
+
+doServerConnectionCreate = ->
+  Dispatcher.handleServerAction
+    type: ActionType.ConnectionCreated
+    from: user2
+    to: group1()
+    localId: 'connection-3'
+
 module.exports = ->
 
   describe 'Connection Store tests', ->
@@ -83,6 +101,30 @@ module.exports = ->
           expect(ConnectionStore.get('group1').user1.user).to.include({id: 'user1'})
           expect(ConnectionStore.get('user1').group1.group).to.include({id: 'group1'})
 
+      describe '| client-side connection creation', ->
+        before doConnectionCreate
+        after clearEverything
+        it 'should add the connection to the pending queue', ->
+          expect(ConnectionStore.queue.data.user2).to.exist
+        it 'should not add the connection to the real data', ->
+          expect(ConnectionStore.cache.data.user2).not.to.exist
+        it 'should treat the connection like it is added via public API', ->
+          expect(ConnectionStore.get 'user2').to.exist
+        it 'should contain reference to the correct entity', ->
+          expect(ConnectionStore.get('user2').group1.group).to.include {id: 'group1'}
+
+      describe '| server-side connection creation', ->
+        before ->
+          doConnectionCreate()
+          doServerConnectionCreate()
+        after clearEverything
+        it 'should add the connection to the cache', ->
+          expect(ConnectionStore.cache.data.user2).to.exist
+        it 'should remove the connection from the pending queue', ->
+          expect(ConnectionStore.queue.data.user2).to.not.exist
+        it 'should contain reference to the correct entity', ->
+          expect(ConnectionStore.get('user2').group1.group).to.include {id: 'group1'}
+
     describe '| query functions', ->
       before clearEverything
 
@@ -92,3 +134,5 @@ module.exports = ->
           expect(ConnectionStore.isAdmin(user1, group1())).to.be.true
         it 'should report that group is not an admin of user', ->
           expect(ConnectionStore.isAdmin(group1(), user1)).to.be.false
+
+      #describe 'get connections', ->
