@@ -79,3 +79,6 @@ module.exports = ->
           expect(ConnectionStore.get 'group1').to.exist
         it 'should add the fetched entities connections', ->
           expect(ConnectionStore.get 'user1').to.exist
+        it 'should make the connections refer to each other', ->
+          expect(ConnectionStore.get('group1').user1.user).to.include({id: 'user1'})
+          expect(ConnectionStore.get('user1').group1.group).to.include({id: 'group1'})
