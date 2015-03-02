@@ -6,6 +6,6 @@
 
 module.exports = ->
 
-  describe 'Comment Store tests', ->
-    it 'should exist', ->
-      expect(CommentStore).to.exist
+#  describe 'Comment Store tests', ->
+#    it 'should exist', ->
+#      expect(CommentStore).to.exist
