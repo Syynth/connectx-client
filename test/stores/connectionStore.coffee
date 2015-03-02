@@ -82,3 +82,13 @@ module.exports = ->
         it 'should make the connections refer to each other', ->
           expect(ConnectionStore.get('group1').user1.user).to.include({id: 'user1'})
           expect(ConnectionStore.get('user1').group1.group).to.include({id: 'group1'})
+
+    describe '| query functions', ->
+      before clearEverything
+
+      describe 'isAdmin', ->
+        before doEntityFetch
+        it 'should report that user is a group of admin', ->
+          expect(ConnectionStore.isAdmin(user1, group1())).to.be.true
+        it 'should report that group is not an admin of user', ->
+          expect(ConnectionStore.isAdmin(group1(), user1)).to.be.false
