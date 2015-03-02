@@ -57,14 +57,14 @@ doConnectionCreate = ->
     type: ActionType.ConnectionSentClient
     from: user2
     to: group1()
-    localId: 'connection-3'
+    clientId: 'connection-3'
 
 doServerConnectionCreate = ->
   Dispatcher.handleServerAction
     type: ActionType.ConnectionCreated
     from: user2
     to: group1()
-    localId: 'connection-3'
+    clientId: 'connection-3'
 
 module.exports = ->
 
