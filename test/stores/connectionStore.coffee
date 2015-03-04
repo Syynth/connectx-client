@@ -110,22 +110,6 @@ module.exports = ->
           expect _.filter ConnectionStore.get('user1'), (cn) -> cn.id is 'group1'
             .to.have.length 1
 
-      ###
-These are stupid
-      describe '| client-side connection creation', ->
-        before doConnectionCreate
-        after clearEverything
-        it 'should add the connection to the pending queue', ->
-          expect(ConnectionStore.queue.data.user2).to.exist
-        it 'should not add the connection to the real data', ->
-          expect(ConnectionStore.cache.data.user2).not.to.exist
-        it 'should treat the connection like it is added via public API', ->
-          expect(ConnectionStore.get 'user2').to.exist
-        it 'should contain reference to the correct entity', ->
-          expect _.filter ConnectionStore.get('user2'), (cn) -> cn.id is 'group1'
-            .to.have.length 1
-###
-
       describe '| server-side connection creation', ->
         before ->
           doConnectionCreate()
