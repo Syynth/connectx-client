@@ -64,14 +64,14 @@ doConnectionCreate = ->
     type: ActionType.ConnectionSentClient
     from: user2
     to: group1()
-    clientId: 'connection-3'
+    pending: true
 
 doServerConnectionCreate = ->
   Dispatcher.handleServerAction
     type: ActionType.ConnectionCreated
     from: user2
     to: group1()
-    clientId: 'connection-3'
+    pending: true
 
 module.exports = ->
 
@@ -101,9 +101,9 @@ module.exports = ->
         beforeEach doEntityFetch
         afterEach clearEverything
         it 'should add the fetched entity to the store', ->
-          expect(ConnectionStore.get 'group1').to.exist
+          expect(ConnectionStore.get 'group1').to.have.length 1
         it 'should add the fetched entities connections', ->
-          expect(ConnectionStore.get 'user1').to.exist
+          expect(ConnectionStore.get 'user1').to.have.length 1
         it 'should make the connections refer to each other', ->
           expect _.filter ConnectionStore.get('group1'), (cn) -> cn.id is 'user1'
             .to.have.length 1
@@ -116,13 +116,20 @@ module.exports = ->
           doServerConnectionCreate()
         after clearEverything
         it 'should add the connection to the cache', ->
-          expect(ConnectionStore.get 'user2').to.exist
+          expect(ConnectionStore.get 'user2', pending: true).to.have.length 1
         it 'should contain reference to the correct entity', ->
-          expect _.filter ConnectionStore.get('user2'), (cn) -> cn.id is 'group1'
+          expect ConnectionStore.get('user2', pending: true).filter (cn) -> cn.id is 'group1'
             .to.have.length 1
 
     describe '| query functions', ->
       before clearEverything
+
+      describe 'get', ->
+        before doServerConnectionCreate
+        it 'should not include pending connections by default', ->
+          expect(ConnectionStore.get 'user2').to.have.length 0
+        it 'should include pending connections when asked for', ->
+          expect(ConnectionStore.get 'user2', pending: true).to.have.length 1
 
       describe 'isAdmin', ->
         before doEntityFetch
