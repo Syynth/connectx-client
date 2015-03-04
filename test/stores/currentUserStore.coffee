@@ -45,7 +45,7 @@ module.exports = ->
         expect(CurrentUserStore.getCurrentActor()).to.not.be.ok
 
     describe '| action creators', ->
-      #afterEach clearEverything
+      afterEach clearEverything
       describe '| user login', ->
         it 'should indicate user is logged in', ->
           expect(CurrentUserStore.isLoggedIn()).to.be.false
