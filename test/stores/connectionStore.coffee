@@ -17,7 +17,7 @@ user1 =
     pending: false
   ]
 
-user2 =
+user2 = ->
   id: 'user2'
   type: 'user'
   connections: []
@@ -59,17 +59,22 @@ doEntityFetch = ->
     type: ActionType.EntityFetch
     entity: group1()
 
+doUser2Fetch = ->
+  Dispatcher.handleServerAction
+    type: ActionType.EntityFetch
+    entity: user2()
+
 doConnectionCreate = ->
   Dispatcher.handleClientAction
     type: ActionType.ConnectionSentClient
-    from: user2
+    from: user2()
     to: group1()
     pending: true
 
 doServerConnectionCreate = ->
   Dispatcher.handleServerAction
     type: ActionType.ConnectionCreated
-    from: user2
+    from: user2()
     to: group1()
     pending: true
 
@@ -111,9 +116,7 @@ module.exports = ->
             .to.have.length 1
 
       describe '| server-side connection creation', ->
-        before ->
-          doConnectionCreate()
-          doServerConnectionCreate()
+        before doServerConnectionCreate
         after clearEverything
         it 'should add the connection to the cache', ->
           expect(ConnectionStore.get 'user2', pending: true).to.have.length 1
@@ -126,10 +129,21 @@ module.exports = ->
 
       describe 'get', ->
         before doServerConnectionCreate
+        after clearEverything
         it 'should not include pending connections by default', ->
           expect(ConnectionStore.get 'user2').to.have.length 0
         it 'should include pending connections when asked for', ->
           expect(ConnectionStore.get 'user2', pending: true).to.have.length 1
+
+      describe 'incoming', ->
+        before ->
+          doUser2Fetch()
+          doServerConnectionCreate()
+        after clearEverything
+        it 'should include entity requests', ->
+          expect(ConnectionStore.incoming 'group1', 'user').to.have.length 1
+        it 'should not include other entity types', ->
+          expect(ConnectionStore.incoming 'group1', 'group').to.have.length 0
 
       describe 'isAdmin', ->
         before doEntityFetch
