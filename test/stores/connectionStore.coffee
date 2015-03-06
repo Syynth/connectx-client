@@ -54,29 +54,21 @@ doUserLogin = ->
     user: user1
     entity: user1
 
-doEntityFetch = ->
+fetch = (entity) ->
   Dispatcher.handleServerAction
     type: ActionType.EntityFetch
-    entity: group1()
+    entity: entity
 
-doUser2Fetch = ->
-  Dispatcher.handleServerAction
-    type: ActionType.EntityFetch
-    entity: user2()
-
-doConnectionCreate = ->
-  Dispatcher.handleClientAction
-    type: ActionType.ConnectionSentClient
-    from: user2()
-    to: group1()
-    pending: true
-
-doServerConnectionCreate = ->
+connect = (from, to) ->
   Dispatcher.handleServerAction
     type: ActionType.ConnectionCreated
-    from: user2()
-    to: group1()
-    pending: true
+    from: from
+    to: to
+
+doEntityFetch = -> fetch group1()
+doUser2Fetch = -> fetch user2()
+
+doServerConnectionCreate = -> connect user2(), group1()
 
 module.exports = ->
 
@@ -123,9 +115,26 @@ module.exports = ->
         it 'should contain reference to the correct entity', ->
           expect ConnectionStore.get('user2', pending: true).filter (cn) -> cn.id is 'group1'
             .to.have.length 1
+        it 'should mark existing connections as no longer pending', ->
+          connect(group1(), user2())
+          expect ConnectionStore.get('user2', pending: true).filter (cn) -> cn.id is 'group1'
+            .to.have.length 0
+          expect ConnectionStore.get('user2', pending: false).filter (cn) -> cn.id is 'group1'
+            .to.have.length 1
+          expect ConnectionStore.get('group1', pending: false).filter (cn) -> cn.id is 'user2'
+            .to.have.length 1
+
 
     describe '| query functions', ->
       before clearEverything
+
+      describe 'hasEdge', ->
+        before doServerConnectionCreate
+        after clearEverything
+        it 'should return true for outgoing pending connections', ->
+          expect(ConnectionStore.hasEdge({id: 'user2'}, id: 'group1')).to.be.true
+        it 'should return false for incoming pending connections', ->
+          expect(ConnectionStore.hasEdge({id: 'group1'}, id: 'user2')).to.be.false
 
       describe 'get', ->
         before doServerConnectionCreate
@@ -151,5 +160,3 @@ module.exports = ->
           expect(ConnectionStore.isAdmin(user1, group1())).to.be.true
         it 'should report that group1 is not an admin of user1', ->
           expect(ConnectionStore.isAdmin(group1(), user1)).to.be.false
-
-      #describe 'get connections', ->
