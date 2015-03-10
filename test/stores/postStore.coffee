@@ -49,14 +49,14 @@ testPost =
   text: 'test post'
   author: {id: 'usr1', type: 'user'}
   owner: {id: 'usr1', type: 'user'}
-  createdAt: Date.now()
+  createdAt: new Date().toISOString()
 
 serverPost =
   id: 's2'
   text: 'test post2'
   author: {id: 'usr2', type: 'user'}
   owner: {id: 'usr2', type: 'user'}
-  createdAt: Date.now()
+  createdAt: new Date().toISOString()
 
 
 module.exports = ->
@@ -89,6 +89,7 @@ module.exports = ->
         it 'should contain the correct number of posts', ->
           expect(_.keys(PostStore.cache.data)).to.have.length(3)
 
+
       describe '| syncing posts to the server', ->
         before 'simulating user created post...', ->
           createTestPost()
@@ -115,6 +116,7 @@ module.exports = ->
           failTestPost()
           expect(PostStore.get('1').failed).to.be.true
           expect(PostStore.get('1').pending).to.be.false
+
       describe '| handling failed post retries', ->
         before 'simulating user created post...', ->
           createTestPost()
