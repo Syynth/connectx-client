@@ -43,6 +43,7 @@ retryTestPost = ->
 createServerPosts = ->
   Dispatcher.handleServerAction
     type: ActionType.PostCollectionSync
+    entity: {id: 'usr2', type: 'user'}
     posts: [(_.extend({}, {id: 's1'}, testPost)), serverPost]
 
 testPost =
@@ -51,12 +52,16 @@ testPost =
   owner: {id: 'usr1', type: 'user'}
   createdAt: new Date().toISOString()
 
-serverPost =
-  id: 's2'
-  text: 'test post2'
+makePost = (num) ->
+  id: 's' + num
+  text: 'test post ' + num
   author: {id: 'usr2', type: 'user'}
   owner: {id: 'usr2', type: 'user'}
   createdAt: new Date().toISOString()
+
+serverPost = makePost 2
+sPost3 = makePost 3
+sPost4 = makePost 4
 
 
 module.exports = ->
