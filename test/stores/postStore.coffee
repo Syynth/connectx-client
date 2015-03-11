@@ -92,7 +92,10 @@ module.exports = ->
           for postId, post of PostStore.cache.data
             expect(post.getId()).to.equal postId
         it 'should contain the correct number of posts', ->
-          expect(_.keys(PostStore.cache.data)).to.have.length(3)
+          # 2 for create server posts
+          expect(_.keys(PostStore.cache.data)).to.have.length 2
+          # 1 for createTestPost
+          expect(_.keys(PostStore.queue.data)).to.have.length 1
 
 
       describe '| syncing posts to the server', ->
